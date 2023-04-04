@@ -10,4 +10,8 @@ export class ProblemComponent {
 
   @Input() problem!: Problem;
 
+  public openpdf() {
+    window.open(`http://uva.onlinejudge.org/external/${Math.floor(this.problem.num/100)}/${this.problem.num}.pdf`, "_blank");
+  }
+
 }

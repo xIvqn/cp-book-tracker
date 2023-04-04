@@ -8,6 +8,7 @@
                     <h6>{{ problem.num }}<span *ngIf="problem.solved"> -> Solved!</span></h6>
                     <p>ID: {{ problem.pid }} | Status: {{ problem.status }} | DACU: {{ problem.dacu }}</p>
                 </div>
+                <button type="button" class="btn btn-outline-secondary float-end" (click)="openpdf()">PDF</button>
             </div>
         </div>
     </div>
