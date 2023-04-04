@@ -2,9 +2,7 @@
 
     <div class="col">
         <div class="card">
-            <div class="card-body rounded"
-                    [class.text-white]="!problem.starred" [class.bg-light-subtle]="!problem.starred"
-                    [class.text-dark]="problem.starred" [class.bg-warning]="problem.starred">
+            <div class="card-body rounded" [ngClass]="setClasses()">
                 <h5><span *ngIf="problem.starred">*</span> {{ problem.title }}</h5>
                 <div class="card-text">
                     <h6>{{ problem.num }}<span *ngIf="problem.solved"> -> Solved!</span></h6>
