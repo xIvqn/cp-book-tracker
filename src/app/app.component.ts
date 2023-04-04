@@ -13,10 +13,11 @@ import { Problem } from './models/problem.model';
 
 export class AppComponent {
 
-  title = 'cp-book-tracker';
+  title = 'CP Book Tracker';
   http = inject(HttpClient);
   chapters: Chapter[] = [];
   problems: Map<number, Problem> = new Map;
+  bookEdition: number = 3;
 
   ngOnInit() {
 
@@ -52,18 +53,30 @@ export class AppComponent {
 
         });
 
-        this.http.get<[]>('https://uhunt.onlinejudge.org/api/cpbook/3')
-          .subscribe((chs) => {
-            chs.forEach((ch: any) => {
-    
-              this.chapters.push({
-                title: ch["title"],
-                sections: this.buildSections(ch["arr"])
-              })
-    
-            });
-          });
+        this.selectEdition(this.bookEdition);
 
+      });
+
+  }
+
+  public search() {
+    console.log("My input: ", this.bookEdition);
+  }
+
+  public selectEdition(id: number) {
+
+    this.chapters = [];
+
+    this.http.get<[]>(`https://uhunt.onlinejudge.org/api/cpbook/${id}`)
+      .subscribe((chs) => {
+        chs.forEach((ch: any) => {
+
+          this.chapters.push({
+            title: ch["title"],
+            sections: this.buildSections(ch["arr"])
+          })
+
+        });
       });
 
   }
