@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-sm navbar-light bg-light">
+<nav class="navbar sticky-top navbar-expand-sm navbar-light bg-light mb-3">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
             <h1>{{ title }}</h1>
@@ -27,4 +27,8 @@
     </div>
 </nav>
 
-<app-chapter [chapter]="chapter" *ngFor="let chapter of chapters"></app-chapter>
+<div class="container-fluid">
+    <div class="accordion" id="accordionChapters">
+        <app-chapter [chapter]="chapter" *ngFor="let chapter of chapters"></app-chapter>
+    </div>
+</div>

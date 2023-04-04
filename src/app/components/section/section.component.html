@@ -1,7 +1,9 @@
 <ng-container *ngIf="section">
     
-    <h2>{{ section.title }}</h2>
+    <h3 class="text-center">{{ section.title }}</h3>
+    
     <app-problem-set [problemSet]="problemSet" *ngFor="let problemSet of section.problemSets"></app-problem-set>
+
 
 </ng-container>
 <ng-container *ngIf="!section">

@@ -1,7 +1,19 @@
 <ng-container *ngIf="chapter">
+
+    <div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+chapter.id" aria-expanded="true" [attr.aria-controls]="chapter.id" >
+                {{ chapter.title }}
+            </button>
+        </h2>
+        <div [attr.id]="chapter.id" class="accordion-collapse collapse">
+            <div class="accordion-body">
+                <app-section [section]="section" *ngFor="let section of chapter.sections"></app-section>
+            </div>
+        </div>
+    </div>
     
-    <h1>{{ chapter.title }}</h1>
-    <app-section [section]="section" *ngFor="let section of chapter.sections"></app-section>
+    <h1></h1>
 
 </ng-container>
 <ng-container *ngIf="!chapter">

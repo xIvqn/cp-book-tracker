@@ -74,11 +74,12 @@ export class AppComponent {
 
     this.http.get<[]>(`https://uhunt.onlinejudge.org/api/cpbook/${id}`)
       .subscribe((chs) => {
-        chs.forEach((ch: any) => {
+        chs.forEach((ch: any, index: number) => {
 
           this.chapters.push({
             title: ch["title"],
-            sections: this.buildSections(ch["arr"])
+            sections: this.buildSections(ch["arr"]),
+            id: `chapter-${index}`
           })
 
         });
