@@ -1,0 +1,11 @@
+<ng-container *ngIf="section">
+    
+    <h2>{{ section.title }}</h2>
+    <app-problem-set [problemSet]="problemSet" *ngFor="let problemSet of section.problemSets"></app-problem-set>
+
+</ng-container>
+<ng-container *ngIf="!section">
+    
+    <p>Unavailable</p>
+
+</ng-container>

@@ -1,0 +1,11 @@
+<ng-container *ngIf="chapter">
+    
+    <h1>{{ chapter.title }}</h1>
+    <app-section [section]="section" *ngFor="let section of chapter.sections"></app-section>
+
+</ng-container>
+<ng-container *ngIf="!chapter">
+    
+    <p>Unavailable</p>
+
+</ng-container>

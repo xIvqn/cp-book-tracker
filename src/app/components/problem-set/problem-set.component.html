@@ -1,0 +1,11 @@
+<ng-container *ngIf="problemSet">
+    
+    <h3>{{ problemSet.title }}</h3>
+    <app-problem [problem]="problem" *ngFor="let problem of problemSet.problems"></app-problem>
+
+</ng-container>
+<ng-container *ngIf="!problemSet">
+    
+    <p>Unavailable</p>
+
+</ng-container>
