@@ -3,13 +3,37 @@
     <div class="col">
         <div class="card">
             <div class="card-body rounded" [ngClass]="setClasses()">
-                <h5><span *ngIf="problem.starred">*</span> {{ problem.title }}</h5>
-                <div class="card-text">
-                    <h6>{{ problem.num }}<span *ngIf="problem.solved"> -> Solved!</span></h6>
-                    <p>ID: {{ problem.pid }} | Status: {{ problem.status }} | DACU: {{ problem.dacu }}</p>
+                <div class="card-title">
+                    <h6># {{ problem.num }}
+                        <i class="bi bi-star-fill float-end" *ngIf="problem.starred"></i></h6>
+                    <h5>{{ problem.title }}</h5>
                 </div>
-                <button type="button" (click)="openpdf()" 
-                        class="btn btn-outline-dark float-end" [class.text-white]="!problem.starred">PDF</button>
+                <hr>
+                <div class="card-text">
+                    <p>DACU: {{ problem.dacu }}</p>
+                    <div class="pt-3 pb-2">
+                        <h6 class="text-center">Verdicts</h6>
+                        <table class="table table-bordered text-center" 
+                                [class.text-white]="!problem.starred" [class.text-dark]="problem.starred">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ACs</th>
+                                    <th scope="col">WAs</th>
+                                    <th scope="col">TLEs</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{ problem.ac }}</td>
+                                    <td>{{ problem.wa }}</td>
+                                    <td>{{ problem.tle }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <button type="button" (click)="openpdf()" 
+                            class="btn btn-outline-dark float-end" [class.text-white]="!problem.starred">PDF</button>
+                </div>
             </div>
         </div>
     </div>
