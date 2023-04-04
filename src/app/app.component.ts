@@ -15,8 +15,11 @@ export class AppComponent {
 
   title = 'CP Book Tracker';
   http = inject(HttpClient);
+  user: string = '';
+  userid: number = 0;
   chapters: Chapter[] = [];
   problems: Map<number, Problem> = new Map;
+  problemNums: Map<number, number> = new Map;
   bookEdition: number = 3;
 
   ngOnInit() {
@@ -24,7 +27,7 @@ export class AppComponent {
     this.http.get<[]>('https://uhunt.onlinejudge.org/api/p')
       .subscribe((problems) => {
         problems.forEach((problem: any[]) => {
-          
+
           this.problems.set(problem[1], {
             pid: problem[0],
             num: problem[1],
@@ -48,8 +51,10 @@ export class AppComponent {
             rtl: problem[19],
             status: problem[20],
             rej: problem[21],
-            starred: false
+            starred: false,
+            solved: false
           })
+          this.problemNums.set(problem[0], problem[1]);
 
         });
 
@@ -81,48 +86,83 @@ export class AppComponent {
 
   }
 
+  public selectUser() {
+
+    this.http.get<number>(`https://uhunt.onlinejudge.org/api/uname2uid/${this.user}`)
+      .subscribe((id) => {
+        this.userid = id
+      });
+
+    this.problems.forEach((problem) => {
+      problem["solved"] = false;
+    });
+
+    this.http.get<any[]>(`https://uhunt.onlinejudge.org/api/solved-bits/${this.userid}`)
+      .subscribe((data) => {
+
+        if (this.userid !== 0 && data !== undefined && data.length > 0) {
+          data = data[0]["solved"]!;
+          let i = 0;
+
+          data.forEach((x) => {
+            for (let j = 0; j < 32; j++) {
+              if (((x >> j) & 1) == 1) {
+                let problemNum = this.problemNums.get(i * 32 + j);
+                let problem = problemNum !== undefined ? this.problems.get(problemNum): undefined;
+
+                if (problem !== undefined && problemNum !== undefined) problem["solved"] = true;
+              }
+            }
+            i++;
+          });
+
+        }
+      });
+
+  }
+
   private buildSections(secs: []) {
-  
+
     let sections: Section[] = [];
-  
+
     secs.forEach((section: any) => {
-  
+
       sections.push({
         title: section["title"],
         problemSets: this.buildProblemSets(section["arr"])
       })
-  
+
     });
-  
+
     return sections;
-  
+
   }
-  
+
   private buildProblemSets(prbs: []) {
-  
+
     let problemSets: ProblemSet[] = [];
-  
+
     prbs.forEach((problemSet: any[]) => {
-  
+
       if (problemSet.length > 0) {
-  
+
         problemSets.push({
           title: problemSet[0],
           problems: this.buildProblems(problemSet.splice(1))
         })
-  
+
       }
-  
+
     });
-  
+
     return problemSets;
-  
+
   }
-  
+
   private buildProblems(prs: number[]) {
-  
+
     let problems: Problem[] = [];
-  
+
     prs.forEach((id: number) => {
 
       let starred = id < 0;
@@ -132,11 +172,11 @@ export class AppComponent {
         problem["starred"] = starred;
         problems.push(problem);
       }
-        
+
     });
-  
+
     return problems;
-  
+
   }
 
 }

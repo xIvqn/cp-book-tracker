@@ -8,7 +8,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse position-relative" id="navbar">
-            <form class="d-flex position-absolute end-0" (ngSubmit)="search()">
+            <form class="d-flex position-absolute end-0" (ngSubmit)="selectUser()">
                 <div class="input-group me-2">
                     <select class="form-select" (change)="selectEdition($any($event.target).value)" 
                             [(ngModel)]="bookEdition" name="bookEdition">
@@ -18,7 +18,8 @@
                     </select>
                 </div>
                 <div class="input-group me-2">
-                    <input class="form-control" type="search" placeholder="UVa username" aria-label="Search">
+                    <input class="form-control" type="search" placeholder="UVa username" aria-label="Search" 
+                            [(ngModel)]="user" name="user" (keyup)="selectUser()">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </div>
             </form>

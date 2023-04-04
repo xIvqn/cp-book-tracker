@@ -21,5 +21,6 @@ export interface Problem {
     "rtl": number;
     "status": number;
     "rej": number,
-    "starred": boolean
+    "starred": boolean,
+    "solved": boolean
 }

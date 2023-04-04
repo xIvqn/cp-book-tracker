@@ -1,7 +1,7 @@
 <ng-container *ngIf="problem">
     
     <h5><span *ngIf="problem.starred">*</span> {{ problem.title }}</h5>
-    <h6>{{ problem.num }}</h6>
+    <h6>{{ problem.num }}<span *ngIf="problem.solved"> -> Solved!</span></h6>
     <p>ID: {{ problem.pid }} | Status: {{ problem.status }} | DACU: {{ problem.dacu }}</p>
 
 </ng-container>
