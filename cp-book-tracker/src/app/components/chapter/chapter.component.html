@@ -1,6 +1,6 @@
 <ng-container *ngIf="chapter">
 
-    <div class="accordion-item">
+    <div class="accordion-item mb-2">
         <h2 class="accordion-header">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+chapter.id" aria-expanded="true" [attr.aria-controls]="chapter.id" >
                 {{ chapter.title }}
@@ -12,8 +12,6 @@
             </div>
         </div>
     </div>
-    
-    <h1></h1>
 
 </ng-container>
 <ng-container *ngIf="!chapter">

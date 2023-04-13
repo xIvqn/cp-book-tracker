@@ -1,9 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+
 import { Chapter } from './models/chapter.model';
-import { Section } from './models/section.model';
-import { ProblemSet } from './models/problem-set.model';
 import { Problem } from './models/problem.model';
+
+import { BookService } from './services/book.service';
 
 @Component({
   selector: 'app-root',
@@ -15,12 +16,18 @@ export class AppComponent {
 
   title = 'CP Book Tracker';
   http = inject(HttpClient);
+
   user: string = '';
   userid: number = 0;
-  chapters: Chapter[] = [];
+
+  book: Chapter[] = [];
+
   problems: Map<number, Problem> = new Map;
   problemNums: Map<number, number> = new Map;
+
   bookEdition: number = 3;
+
+  constructor(private bookService: BookService) { }
 
   ngOnInit() {
 
@@ -64,26 +71,10 @@ export class AppComponent {
 
   }
 
-  public search() {
-    console.log("My input: ", this.bookEdition);
-  }
+  public selectEdition(edition: number) {
 
-  public selectEdition(id: number) {
-
-    this.chapters = [];
-
-    this.http.get<[]>(`https://uhunt.onlinejudge.org/api/cpbook/${id}`)
-      .subscribe((chs) => {
-        chs.forEach((ch: any, index: number) => {
-
-          this.chapters.push({
-            title: ch["title"],
-            sections: this.buildSections(ch["arr"]),
-            id: `chapter-${index}`
-          })
-
-        });
-      });
+    this.bookEdition = edition;
+    this.book = this.bookService.getBook(this.bookEdition, this.problems);
 
   }
 
@@ -109,7 +100,7 @@ export class AppComponent {
             for (let j = 0; j < 32; j++) {
               if (((x >> j) & 1) == 1) {
                 let problemNum = this.problemNums.get(i * 32 + j);
-                let problem = problemNum !== undefined ? this.problems.get(problemNum): undefined;
+                let problem = problemNum !== undefined ? this.problems.get(problemNum) : undefined;
 
                 if (problem !== undefined && problemNum !== undefined) problem["solved"] = true;
               }
@@ -123,64 +114,8 @@ export class AppComponent {
   }
 
   public qSubmit() {
+
     window.open('http://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=25&page=submit_problem', "_blank");
-  }
-
-  private buildSections(secs: []) {
-
-    let sections: Section[] = [];
-
-    secs.forEach((section: any) => {
-
-      sections.push({
-        title: section["title"],
-        problemSets: this.buildProblemSets(section["arr"])
-      })
-
-    });
-
-    return sections;
-
-  }
-
-  private buildProblemSets(prbs: []) {
-
-    let problemSets: ProblemSet[] = [];
-
-    prbs.forEach((problemSet: any[]) => {
-
-      if (problemSet.length > 0) {
-
-        problemSets.push({
-          title: problemSet[0],
-          problems: this.buildProblems(problemSet.splice(1))
-        })
-
-      }
-
-    });
-
-    return problemSets;
-
-  }
-
-  private buildProblems(prs: number[]) {
-
-    let problems: Problem[] = [];
-
-    prs.forEach((id: number) => {
-
-      let starred = id < 0;
-      let problem = this.problems.get(Math.abs(id));
-
-      if (problem !== undefined) {
-        problem["starred"] = starred;
-        problems.push(problem);
-      }
-
-    });
-
-    return problems;
 
   }
 
