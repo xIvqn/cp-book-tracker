@@ -10,4 +10,8 @@ export class ProblemSetComponent {
 
   @Input() problemSet!: ProblemSet;
 
+  getSolved(): string {
+    return `${this.problemSet.solved} / ${this.problemSet.total}`;
+  }
+
 }
