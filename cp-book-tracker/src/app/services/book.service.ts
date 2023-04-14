@@ -113,7 +113,7 @@ export class BookService {
       let problem = this.problems.get(Math.abs(id));
 
       if (problem !== undefined) {
-        if (starred) solved++;
+        if (problem["solved"]) solved++;
         problem["starred"] = starred;
         problems.push(problem);
       }
