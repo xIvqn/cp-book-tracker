@@ -19,16 +19,25 @@ export class BookService {
 
     this.problems = problems;
     let book: Chapter[] = [];
+    let solved: number = 0;
+    let total: number = 0;
 
     this.httpClient.get<[]>(`${this.url}/${edition}`)
       .subscribe((chs) => {
         chs.forEach((ch: any, index: number) => {
 
+          let buildSections = this.buildSections(ch["arr"]);
+
           book.push({
             title: ch["title"],
-            sections: this.buildSections(ch["arr"]),
+            sections: buildSections["sections"],
+            total: buildSections["total"],
+            solved: buildSections["solved"],
             id: `chapter-${index}`
           })
+
+          solved += buildSections["solved"]
+          total += buildSections["total"]
 
         });
       });
@@ -37,47 +46,66 @@ export class BookService {
 
   }
 
-  private buildSections(secs: []): Section[] {
+  private buildSections(secs: []): { sections: Section[], solved: number, total: number } {
 
     let sections: Section[] = [];
+    let solved: number = 0;
+    let total: number = 0;
 
     secs.forEach((section: any) => {
 
+      let buildProblemSets = this.buildProblemSets(section["arr"]);
+
       sections.push({
         title: section["title"],
-        problemSets: this.buildProblemSets(section["arr"])
+        problemSets: buildProblemSets["problemSets"],
+        total: buildProblemSets["total"],
+        solved: buildProblemSets["solved"]
       })
+
+      solved += buildProblemSets["solved"]
+      total += buildProblemSets["total"]
 
     });
 
-    return sections;
+    return { sections, solved, total };
 
   }
 
-  private buildProblemSets(prbs: []): ProblemSet[] {
+  private buildProblemSets(prbs: []): { problemSets: ProblemSet[], solved: number, total: number } {
 
     let problemSets: ProblemSet[] = [];
+    let solved: number = 0;
+    let total: number = 0;
 
     prbs.forEach((problemSet: any[]) => {
 
       if (problemSet.length > 0) {
 
+        let buildProblems = this.buildProblems(problemSet.splice(1));
+
         problemSets.push({
           title: problemSet[0],
-          problems: this.buildProblems(problemSet.splice(1))
+          problems: buildProblems["problems"],
+          total: buildProblems["problems"].length,
+          solved: buildProblems["solved"]
         })
+
+        solved += buildProblems["solved"]
+        total += buildProblems["problems"].length
 
       }
 
     });
 
-    return problemSets;
+    return { problemSets, solved, total };
 
   }
 
-  private buildProblems(prs: number[]): Problem[] {
+  private buildProblems(prs: number[]): { problems: Problem[], solved: number } {
 
     let problems: Problem[] = [];
+    let solved = 0;
 
     prs.forEach((id: number) => {
 
@@ -85,13 +113,14 @@ export class BookService {
       let problem = this.problems.get(Math.abs(id));
 
       if (problem !== undefined) {
+        if (starred) solved++;
         problem["starred"] = starred;
         problems.push(problem);
       }
 
     });
 
-    return problems;
+    return { problems, solved };
 
   }
 
