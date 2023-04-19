@@ -5,6 +5,8 @@ import { Chapter } from './models/chapter.model';
 import { Problem } from './models/problem.model';
 
 import { BookService } from './services/book.service';
+import { Section } from './models/section.model';
+import { ProblemSet } from './models/problem-set.model';
 import { NgForm } from '@angular/forms';
 
 @Component({
@@ -22,6 +24,8 @@ export class AppComponent {
   userid: number = 0;
 
   book: Chapter[] = [];
+  solved: number = 0;
+  total: number = 0;
 
   problems: Map<number, Problem> = new Map;
   problemNums: Map<number, number> = new Map;
@@ -77,6 +81,14 @@ export class AppComponent {
     this.bookEdition = edition;
     this.book = this.bookService.getBook(this.bookEdition, this.problems);
 
+    this.solved = 0;
+    this.total = 0;
+    
+    this.book.forEach((chapter: Chapter) => {
+      this.solved += chapter.solved;
+      this.total += chapter.total;
+    });
+
   }
 
   public selectUser(f: NgForm) {
@@ -112,7 +124,45 @@ export class AppComponent {
     
             }
           });
+
+        this.updateSolved();
+
       });
+
+  }
+
+  private updateSolved() {
+
+    console.log("*");
+
+    this.book.forEach((chapter: Chapter) => {
+
+      console.log("**");
+
+      chapter.solved = 0;
+      chapter.sections.forEach((section: Section) => {
+
+        section.solved = 0;
+        section.problemSets.forEach((problemSet: ProblemSet) => {
+
+          problemSet.solved = 0;
+          problemSet.problems.forEach((problem: Problem) => {
+
+            if (problem.solved) {
+              problemSet.solved++; 
+              console.log("*****");
+            };
+
+          });
+          section.solved += problemSet.solved;
+
+        });
+        chapter.solved += section.solved;
+
+      });
+      this.solved += chapter.solved;
+
+    });
 
   }
 

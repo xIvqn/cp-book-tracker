@@ -1,6 +1,7 @@
 <ng-container *ngIf="section">
     
-    <h3 class="text-center mt-3">{{ section.title }}</h3>
+    <h3 class="text-center mt-3">{{ section.title }}<br>
+        <span class="badge mt-2" [ngClass]="allSolved ? 'text-bg-success' : 'text-bg-light'">{{ getSolved() }}</span></h3>
     
     <app-problem-set [problemSet]="problemSet" *ngFor="let problemSet of section.problemSets"></app-problem-set>
 
