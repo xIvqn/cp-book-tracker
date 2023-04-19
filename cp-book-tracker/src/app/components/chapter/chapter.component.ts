@@ -9,9 +9,14 @@ import { Chapter } from 'src/app/models/chapter.model';
 export class ChapterComponent {
 
   @Input() chapter!: Chapter;
+  allSolved: boolean = false;
 
   getSolved(): string {
+    
+    this.allSolved = this.chapter.solved === this.chapter.total;
+
     return `${this.chapter.solved} / ${this.chapter.total}`;
+
   }
 
 }
