@@ -1,13 +1,14 @@
 import { Component, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { NgForm } from '@angular/forms';
 
 import { Chapter } from './models/chapter.model';
+import { Section } from './models/section.model';
+import { ProblemSet } from './models/problem-set.model';
 import { Problem } from './models/problem.model';
 
 import { BookService } from './services/book.service';
-import { Section } from './models/section.model';
-import { ProblemSet } from './models/problem-set.model';
-import { NgForm } from '@angular/forms';
+import { UserService } from './services/user.service';
 
 @Component({
   selector: 'app-root',
@@ -32,7 +33,7 @@ export class AppComponent {
 
   bookEdition: number = 3;
 
-  constructor(private bookService: BookService) { }
+  constructor(private bookService: BookService, private userService: UserService) { }
 
   ngOnInit() {
 
@@ -98,46 +99,26 @@ export class AppComponent {
     this.problems.forEach((problem) => {
       problem["solved"] = false;
     });
-
-    this.http.get<number>(`https://uhunt.onlinejudge.org/api/uname2uid/${this.user}`)
-      .subscribe((id) => {
-        this.userid = id
-
-        this.http.get<any[]>(`https://uhunt.onlinejudge.org/api/solved-bits/${this.userid}`)
-          .subscribe((data) => {
     
-            if (this.userid !== 0 && data !== undefined && data.length > 0) {
-              data = data[0]["solved"]!;
-              let i = 0;
-    
-              data.forEach((x) => {
-                for (let j = 0; j < 32; j++) {
-                  if (((x >> j) & 1) == 1) {
-                    let problemNum = this.problemNums.get(i * 32 + j);
-                    let problem = problemNum !== undefined ? this.problems.get(problemNum) : undefined;
-    
-                    if (problem !== undefined && problemNum !== undefined) problem["solved"] = true;
-                  }
-                }
-                i++;
-              });
-    
-            }
-          });
-
-        this.updateSolved();
-
+    this.userService.getSolved(this.user).subscribe({next: (response) => {
+      console.log(response);
+      
+      response.forEach((problemId) => {
+        let problemNum = this.problemNums.get(problemId);
+        let problem = problemNum !== undefined ? this.problems.get(problemNum): undefined;
+  
+        if (problem !== undefined && problemNum !== undefined) {console.log(problemNum);problem["solved"] = true};
       });
+
+      this.updateSolved();
+    }});
+
 
   }
 
   private updateSolved() {
 
-    console.log("*");
-
     this.book.forEach((chapter: Chapter) => {
-
-      console.log("**");
 
       chapter.solved = 0;
       chapter.sections.forEach((section: Section) => {
@@ -150,7 +131,6 @@ export class AppComponent {
 
             if (problem.solved) {
               problemSet.solved++; 
-              console.log("*****");
             };
 
           });
