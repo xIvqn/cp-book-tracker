@@ -3,7 +3,7 @@
     <div class="accordion-item mb-2">
         <h2 class="accordion-header">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#'+chapter.id" aria-expanded="true" [attr.aria-controls]="chapter.id" >
-                {{ chapter.title }}
+                {{ chapter.title }}<span class="badge text-bg-light ms-2">{{ getSolved() }}</span>
             </button>
         </h2>
         <div [attr.id]="chapter.id" class="accordion-collapse collapse">

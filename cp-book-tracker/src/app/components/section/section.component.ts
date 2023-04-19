@@ -10,4 +10,8 @@ export class SectionComponent {
 
   @Input() section!: Section;
 
+  getSolved(): string {
+    return `${this.section.solved} / ${this.section.total}`;
+  }
+
 }

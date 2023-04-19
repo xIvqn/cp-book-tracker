@@ -10,4 +10,8 @@ export class ChapterComponent {
 
   @Input() chapter!: Chapter;
 
+  getSolved(): string {
+    return `${this.chapter.solved} / ${this.chapter.total}`;
+  }
+
 }
