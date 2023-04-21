@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Observer } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -35,13 +35,12 @@ export class UserService {
                 });
       
               }
-              
+
+              subscriber.next(solved);
+
             });
 
         });
-        
-
-        subscriber.next(solved);
 
     });
 

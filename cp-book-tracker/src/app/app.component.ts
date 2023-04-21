@@ -101,13 +101,11 @@ export class AppComponent {
     });
     
     this.userService.getSolved(this.user).subscribe({next: (response) => {
-      console.log(response);
-      
       response.forEach((problemId) => {
         let problemNum = this.problemNums.get(problemId);
         let problem = problemNum !== undefined ? this.problems.get(problemNum): undefined;
   
-        if (problem !== undefined && problemNum !== undefined) {console.log(problemNum);problem["solved"] = true};
+        if (problem !== undefined && problemNum !== undefined) {problem["solved"] = true};
       });
 
       this.updateSolved();
