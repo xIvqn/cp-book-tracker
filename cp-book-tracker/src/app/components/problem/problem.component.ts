@@ -16,11 +16,11 @@ export class ProblemComponent {
 
   public setClasses() {
     return {
-      'text-white': (!this.problem.starred && (this.problem.status === 1)) || this.problem.solved,
-      'bg-light-subtle': !this.problem.starred && (this.problem.status === 1) && !this.problem.solved,
-      'text-dark': (this.problem.starred || this.problem.status !== 1) && !this.problem.solved,
-      'bg-warning': this.problem.starred && (this.problem.status === 1) && !this.problem.solved,
-      'bg-danger':  this.problem.status !== 1 && !this.problem.solved,
+      'text-white': (!this.problem.starred && (this.problem.status !== 0)) || this.problem.solved,
+      'bg-light-subtle': !this.problem.starred && (this.problem.status !== 0) && !this.problem.solved,
+      'text-dark': (this.problem.starred || this.problem.status === 0) && !this.problem.solved,
+      'bg-warning': this.problem.starred && (this.problem.status !== 0) && !this.problem.solved,
+      'bg-danger':  this.problem.status === 0 && !this.problem.solved,
       'bg-success':  this.problem.solved
     };
   }
