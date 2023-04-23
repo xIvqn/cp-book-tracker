@@ -161,10 +161,4 @@ export class AppComponent {
 
   }
 
-  public qSubmit() {
-
-    window.open('http://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=25&page=submit_problem', "_blank");
-
-  }
-
 }
