@@ -28,6 +28,12 @@
 </nav>
 
 <div class="container-fluid p-4">
+    <div class="d-flex justify-content-center mb-5 mt-2" *ngIf="bookSpinner || userSpinner">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
     <div class="accordion" id="accordionChapters">
         <app-chapter [chapter]="chapter" *ngFor="let chapter of book"></app-chapter>
     </div>

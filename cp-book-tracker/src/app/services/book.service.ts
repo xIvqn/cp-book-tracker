@@ -4,6 +4,7 @@ import { Chapter } from '../models/chapter.model';
 import { ProblemSet } from '../models/problem-set.model';
 import { Problem } from '../models/problem.model';
 import { Section } from '../models/section.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,34 +16,39 @@ export class BookService {
 
   constructor(private httpClient: HttpClient) { }
 
-  public getBook(edition: number, problems: Map<number, Problem>): Chapter[] {
+  public getBook(edition: number, problems: Map<number, Problem>): Observable<Chapter[]> {
+    
+    return new Observable<Chapter[]>((subscriber) => {
 
-    this.problems = problems;
-    let book: Chapter[] = [];
-    let solved: number = 0;
-    let total: number = 0;
-
-    this.httpClient.get<[]>(`${this.url}/${edition}`)
-      .subscribe((chs) => {
-        chs.forEach((ch: any, index: number) => {
-
-          let buildSections = this.buildSections(ch["arr"]);
-
-          book.push({
-            title: ch["title"],
-            sections: buildSections["sections"],
-            total: buildSections["total"],
-            solved: buildSections["solved"],
-            id: `chapter-${index}`
-          })
-
-          solved += buildSections["solved"]
-          total += buildSections["total"]
+      this.problems = problems;
+      let book: Chapter[] = [];
+      let solved: number = 0;
+      let total: number = 0;
+  
+      this.httpClient.get<[]>(`${this.url}/${edition}`)
+        .subscribe((chs) => {
+          chs.forEach((ch: any, index: number) => {
+  
+            let buildSections = this.buildSections(ch["arr"]);
+  
+            book.push({
+              title: ch["title"],
+              sections: buildSections["sections"],
+              total: buildSections["total"],
+              solved: buildSections["solved"],
+              id: `chapter-${index}`
+            })
+  
+            solved += buildSections["solved"]
+            total += buildSections["total"]
+  
+          });
+  
+          subscriber.next(book);
 
         });
-      });
 
-    return book;
+    });
 
   }
 
