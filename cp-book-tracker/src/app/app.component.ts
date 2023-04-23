@@ -33,6 +33,9 @@ export class AppComponent {
 
   bookEdition: number = 3;
 
+  bookSpinner: boolean = true;
+  userSpinner: boolean = false;
+
   constructor(private bookService: BookService, private userService: UserService) { }
 
   ngOnInit() {
@@ -79,21 +82,33 @@ export class AppComponent {
 
   public selectEdition(edition: number) {
 
+    this.bookSpinner = true;
     this.bookEdition = edition;
-    this.book = this.bookService.getBook(this.bookEdition, this.problems);
 
-    this.solved = 0;
-    this.total = 0;
-    
-    this.book.forEach((chapter: Chapter) => {
-      this.solved += chapter.solved;
-      this.total += chapter.total;
+    this.bookService.getBook(this.bookEdition, this.problems).subscribe({
+      next: (response) => {
+
+        this.book = response;
+
+        this.solved = 0;
+        this.total = 0;
+        
+        this.book.forEach((chapter: Chapter) => {
+          this.solved += chapter.solved;
+          this.total += chapter.total;
+        });
+
+        this.bookSpinner = false;
+
+      }, 
+      error: () => this.bookSpinner = false
     });
 
   }
 
   public selectUser(f: NgForm) {
 
+    this.userSpinner = true;
     this.user = f.value.user;
 
     this.problems.forEach((problem) => {
@@ -109,6 +124,8 @@ export class AppComponent {
       });
 
       this.updateSolved();
+
+      this.userSpinner = false;
     }});
 
 
