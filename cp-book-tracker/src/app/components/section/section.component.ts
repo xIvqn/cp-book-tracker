@@ -9,5 +9,14 @@ import { Section } from 'src/app/models/section.model';
 export class SectionComponent {
 
   @Input() section!: Section;
+  allSolved: boolean = false;
+
+  getSolved(): string {
+    
+    this.allSolved = this.section.solved === this.section.total;
+
+    return `${this.section.solved} / ${this.section.total}`;
+
+  }
 
 }

@@ -1,9 +1,14 @@
 import { Component, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { NgForm } from '@angular/forms';
+
 import { Chapter } from './models/chapter.model';
 import { Section } from './models/section.model';
 import { ProblemSet } from './models/problem-set.model';
 import { Problem } from './models/problem.model';
+
+import { BookService } from './services/book.service';
+import { UserService } from './services/user.service';
 
 @Component({
   selector: 'app-root',
@@ -15,12 +20,23 @@ export class AppComponent {
 
   title = 'CP Book Tracker';
   http = inject(HttpClient);
+
   user: string = '';
   userid: number = 0;
-  chapters: Chapter[] = [];
+
+  book: Chapter[] = [];
+  solved: number = 0;
+  total: number = 0;
+
   problems: Map<number, Problem> = new Map;
   problemNums: Map<number, number> = new Map;
+
   bookEdition: number = 3;
+
+  bookSpinner: boolean = true;
+  userSpinner: boolean = false;
+
+  constructor(private bookService: BookService, private userService: UserService) { }
 
   ngOnInit() {
 
@@ -64,123 +80,84 @@ export class AppComponent {
 
   }
 
-  public search() {
-    console.log("My input: ", this.bookEdition);
-  }
+  public selectEdition(edition: number) {
 
-  public selectEdition(id: number) {
+    this.bookSpinner = true;
+    this.bookEdition = edition;
 
-    this.chapters = [];
+    this.bookService.getBook(this.bookEdition, this.problems).subscribe({
+      next: (response) => {
 
-    this.http.get<[]>(`https://uhunt.onlinejudge.org/api/cpbook/${id}`)
-      .subscribe((chs) => {
-        chs.forEach((ch: any, index: number) => {
+        this.book = response;
 
-          this.chapters.push({
-            title: ch["title"],
-            sections: this.buildSections(ch["arr"]),
-            id: `chapter-${index}`
-          })
-
+        this.solved = 0;
+        this.total = 0;
+        
+        this.book.forEach((chapter: Chapter) => {
+          this.solved += chapter.solved;
+          this.total += chapter.total;
         });
-      });
+
+        this.bookSpinner = false;
+
+      }, 
+      error: () => this.bookSpinner = false
+    });
 
   }
 
-  public selectUser() {
+  public selectUser(f: NgForm) {
 
-    this.http.get<number>(`https://uhunt.onlinejudge.org/api/uname2uid/${this.user}`)
-      .subscribe((id) => {
-        this.userid = id
-      });
+    this.userSpinner = true;
+    this.user = f.value.user;
 
     this.problems.forEach((problem) => {
       problem["solved"] = false;
     });
-
-    this.http.get<any[]>(`https://uhunt.onlinejudge.org/api/solved-bits/${this.userid}`)
-      .subscribe((data) => {
-
-        if (this.userid !== 0 && data !== undefined && data.length > 0) {
-          data = data[0]["solved"]!;
-          let i = 0;
-
-          data.forEach((x) => {
-            for (let j = 0; j < 32; j++) {
-              if (((x >> j) & 1) == 1) {
-                let problemNum = this.problemNums.get(i * 32 + j);
-                let problem = problemNum !== undefined ? this.problems.get(problemNum): undefined;
-
-                if (problem !== undefined && problemNum !== undefined) problem["solved"] = true;
-              }
-            }
-            i++;
-          });
-
-        }
+    
+    this.userService.getSolved(this.user).subscribe({next: (response) => {
+      response.forEach((problemId) => {
+        let problemNum = this.problemNums.get(problemId);
+        let problem = problemNum !== undefined ? this.problems.get(problemNum): undefined;
+  
+        if (problem !== undefined && problemNum !== undefined) {problem["solved"] = true};
       });
 
+      this.updateSolved();
+
+      this.userSpinner = false;
+    }});
+
+
   }
 
-  public qSubmit() {
-    window.open('http://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=25&page=submit_problem', "_blank");
-  }
+  private updateSolved() {
 
-  private buildSections(secs: []) {
+    this.book.forEach((chapter: Chapter) => {
 
-    let sections: Section[] = [];
+      chapter.solved = 0;
+      chapter.sections.forEach((section: Section) => {
 
-    secs.forEach((section: any) => {
+        section.solved = 0;
+        section.problemSets.forEach((problemSet: ProblemSet) => {
 
-      sections.push({
-        title: section["title"],
-        problemSets: this.buildProblemSets(section["arr"])
-      })
+          problemSet.solved = 0;
+          problemSet.problems.forEach((problem: Problem) => {
+
+            if (problem.solved) {
+              problemSet.solved++; 
+            };
+
+          });
+          section.solved += problemSet.solved;
+
+        });
+        chapter.solved += section.solved;
+
+      });
+      this.solved += chapter.solved;
 
     });
-
-    return sections;
-
-  }
-
-  private buildProblemSets(prbs: []) {
-
-    let problemSets: ProblemSet[] = [];
-
-    prbs.forEach((problemSet: any[]) => {
-
-      if (problemSet.length > 0) {
-
-        problemSets.push({
-          title: problemSet[0],
-          problems: this.buildProblems(problemSet.splice(1))
-        })
-
-      }
-
-    });
-
-    return problemSets;
-
-  }
-
-  private buildProblems(prs: number[]) {
-
-    let problems: Problem[] = [];
-
-    prs.forEach((id: number) => {
-
-      let starred = id < 0;
-      let problem = this.problems.get(Math.abs(id));
-
-      if (problem !== undefined) {
-        problem["starred"] = starred;
-        problems.push(problem);
-      }
-
-    });
-
-    return problems;
 
   }
 
