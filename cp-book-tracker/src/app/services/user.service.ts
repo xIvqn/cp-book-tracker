@@ -20,7 +20,7 @@ export class UserService {
       this.httpClient.get<number>(`${this.url}/uname2uid/${username}`)
         .subscribe((id) => {
 
-          this.httpClient.get<any[]>(`${this.url}/solved-bits/${id}`)
+          this.httpClient.get<any[]>(`${this.url}/solved-bits/${id}?${Date.now()}`)
             .subscribe((data) => {
       
               if (id !== 0 && data !== undefined && data.length > 0) {
