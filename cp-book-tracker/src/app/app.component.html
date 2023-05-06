@@ -1,5 +1,5 @@
-<nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary px-5 py-2 rounded-4 m-3">
-    <div class="container-fluid">
+<nav class="navbar sticky-top navbar-expand-lg bg-body-tertiary px-4 px-lg-5 py-2 rounded-4 m-3">
+    <div class="container-fluid my-2">
         <a class="navbar-brand" href="#">
             <h1>{{ title }}</h1>
         </a>
@@ -8,7 +8,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbar">
-            <div class="navbar-nav ms-auto">
+            <div class="navbar-nav ms-auto px-3 px-lg-0">
                 <div class="input-group mx-lg-1 mt-3 mt-lg-0">
                     <select class="form-select" (change)="selectEdition($any($event.target).value)" 
                             [(ngModel)]="bookEdition" name="bookEdition">
@@ -17,7 +17,8 @@
                         <option value="3" selected>3rd Edition</option>
                     </select>
                 </div>
-                <form #f="ngForm" (ngSubmit)="selectUser(f)" novalidate class="input-group mx-lg-1 my-2 my-lg-0">
+                <form #f="ngForm" (ngSubmit)="selectUser(f)" novalidate 
+                    class="input-group mx-lg-1 my-2 my-lg-0">
                     <input class="form-control" placeholder="UVa username" aria-label="Search" 
                             ngModel name="user">
                     <button class="btn btn-outline-success">Search</button>
@@ -40,5 +41,5 @@
 </div>
 
 <footer class="pt-4 pb-2 fixed-bottom bg-body-tertiary rounded-top-4 mx-0 mx-md-3">
-    <h6 class="text-center">&lt;/&gt; with ♥️ by <a href="https://github.com/xIvqn" target="_blank" class="text-danger-emphasis">xIvqn</a> using <span><img src="https://angular.io/assets/images/logos/angular/angular.svg" alt="Angular" style="max-height: 1.5em;"></span></h6>
+    <h6 class="text-center">&lt;/&gt; with 💙 by <a href="https://github.com/xIvqn" target="_blank" class="text-primary-emphasis">xIvqn</a> using <span><img src="https://angular.io/assets/images/logos/angular/angular.svg" alt="Angular" style="max-height: 1.5em;"></span></h6>
 </footer>
