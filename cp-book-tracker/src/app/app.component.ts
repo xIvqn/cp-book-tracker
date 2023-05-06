@@ -101,7 +101,7 @@ export class AppComponent {
 
         this.solved = 0;
         this.total = 0;
-        
+
         this.book.forEach((chapter: Chapter) => {
           this.solved += chapter.solved;
           this.total += chapter.total;
@@ -109,7 +109,7 @@ export class AppComponent {
 
         this.bookSpinner = false;
 
-      }, 
+      },
       error: () => this.bookSpinner = false
     });
 
@@ -129,44 +129,46 @@ export class AppComponent {
   }
 
   private updateSolved() {
-    
-    this.userService.getSolved(this.user).subscribe({next: (response) => {
-      response.forEach((problemId) => {
-        let problemNum = this.problemNums.get(problemId);
-        let problem = problemNum !== undefined ? this.problems.get(problemNum): undefined;
-  
-        if (problem !== undefined && problemNum !== undefined) {problem["solved"] = true};
-      });
 
-      this.book.forEach((chapter: Chapter) => {
-  
-        chapter.solved = 0;
-        chapter.sections.forEach((section: Section) => {
-  
-          section.solved = 0;
-          section.problemSets.forEach((problemSet: ProblemSet) => {
-  
-            problemSet.solved = 0;
-            problemSet.problems.forEach((problem: Problem) => {
-  
-              if (problem.solved) {
-                problemSet.solved++; 
-              };
-  
-            });
-            section.solved += problemSet.solved;
-  
-          });
-          chapter.solved += section.solved;
-  
+    this.userService.getSolved(this.user).subscribe({
+      next: (response) => {
+        response.forEach((problemId) => {
+          let problemNum = this.problemNums.get(problemId);
+          let problem = problemNum !== undefined ? this.problems.get(problemNum) : undefined;
+
+          if (problem !== undefined && problemNum !== undefined) { problem["solved"] = true };
         });
-        this.solved += chapter.solved;
-  
-      });
 
-      this.userSpinner = false;
+        this.book.forEach((chapter: Chapter) => {
 
-    }});
+          chapter.solved = 0;
+          chapter.sections.forEach((section: Section) => {
+
+            section.solved = 0;
+            section.problemSets.forEach((problemSet: ProblemSet) => {
+
+              problemSet.solved = 0;
+              problemSet.problems.forEach((problem: Problem) => {
+
+                if (problem.solved) {
+                  problemSet.solved++;
+                };
+
+              });
+              section.solved += problemSet.solved;
+
+            });
+            chapter.solved += section.solved;
+
+          });
+          this.solved += chapter.solved;
+
+        });
+
+        this.userSpinner = false;
+
+      }
+    });
 
   }
 
