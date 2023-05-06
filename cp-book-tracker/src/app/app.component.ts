@@ -2,6 +2,8 @@ import { Component, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
 
+import { interval, Subscription } from 'rxjs';
+
 import { Chapter } from './models/chapter.model';
 import { Section } from './models/section.model';
 import { ProblemSet } from './models/problem-set.model';
@@ -10,20 +12,23 @@ import { Problem } from './models/problem.model';
 import { BookService } from './services/book.service';
 import { UserService } from './services/user.service';
 
+
+const userRefreshInterval = 30000;
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-
 export class AppComponent {
 
   title = 'CP Book Tracker';
   http = inject(HttpClient);
 
   user: string = '';
-  userid: number = 0;
+  userRefresh!: Subscription;
 
+  bookEdition: number = 3;
   book: Chapter[] = [];
   solved: number = 0;
   total: number = 0;
@@ -31,14 +36,17 @@ export class AppComponent {
   problems: Map<number, Problem> = new Map;
   problemNums: Map<number, number> = new Map;
 
-  bookEdition: number = 3;
-
   bookSpinner: boolean = true;
   userSpinner: boolean = false;
 
   constructor(private bookService: BookService, private userService: UserService) { }
 
   ngOnInit() {
+
+    const source = interval(userRefreshInterval);
+    this.userRefresh = source.subscribe(() => {
+      if (this.user !== '') this.updateSolved();
+    });
 
     this.http.get<[]>('https://uhunt.onlinejudge.org/api/p')
       .subscribe((problems) => {
@@ -84,6 +92,7 @@ export class AppComponent {
 
     this.bookSpinner = true;
     this.bookEdition = edition;
+    this.book = [];
 
     this.bookService.getBook(this.bookEdition, this.problems).subscribe({
       next: (response) => {
@@ -92,7 +101,7 @@ export class AppComponent {
 
         this.solved = 0;
         this.total = 0;
-        
+
         this.book.forEach((chapter: Chapter) => {
           this.solved += chapter.solved;
           this.total += chapter.total;
@@ -100,7 +109,7 @@ export class AppComponent {
 
         this.bookSpinner = false;
 
-      }, 
+      },
       error: () => this.bookSpinner = false
     });
 
@@ -114,49 +123,51 @@ export class AppComponent {
     this.problems.forEach((problem) => {
       problem["solved"] = false;
     });
-    
-    this.userService.getSolved(this.user).subscribe({next: (response) => {
-      response.forEach((problemId) => {
-        let problemNum = this.problemNums.get(problemId);
-        let problem = problemNum !== undefined ? this.problems.get(problemNum): undefined;
-  
-        if (problem !== undefined && problemNum !== undefined) {problem["solved"] = true};
-      });
 
-      this.updateSolved();
-
-      this.userSpinner = false;
-    }});
-
+    this.updateSolved();
 
   }
 
   private updateSolved() {
 
-    this.book.forEach((chapter: Chapter) => {
+    this.userService.getSolved(this.user).subscribe({
+      next: (response) => {
+        response.forEach((problemId) => {
+          let problemNum = this.problemNums.get(problemId);
+          let problem = problemNum !== undefined ? this.problems.get(problemNum) : undefined;
 
-      chapter.solved = 0;
-      chapter.sections.forEach((section: Section) => {
+          if (problem !== undefined && problemNum !== undefined) { problem["solved"] = true };
+        });
 
-        section.solved = 0;
-        section.problemSets.forEach((problemSet: ProblemSet) => {
+        this.book.forEach((chapter: Chapter) => {
 
-          problemSet.solved = 0;
-          problemSet.problems.forEach((problem: Problem) => {
+          chapter.solved = 0;
+          chapter.sections.forEach((section: Section) => {
 
-            if (problem.solved) {
-              problemSet.solved++; 
-            };
+            section.solved = 0;
+            section.problemSets.forEach((problemSet: ProblemSet) => {
+
+              problemSet.solved = 0;
+              problemSet.problems.forEach((problem: Problem) => {
+
+                if (problem.solved) {
+                  problemSet.solved++;
+                };
+
+              });
+              section.solved += problemSet.solved;
+
+            });
+            chapter.solved += section.solved;
 
           });
-          section.solved += problemSet.solved;
+          this.solved += chapter.solved;
 
         });
-        chapter.solved += section.solved;
 
-      });
-      this.solved += chapter.solved;
+        this.userSpinner = false;
 
+      }
     });
 
   }

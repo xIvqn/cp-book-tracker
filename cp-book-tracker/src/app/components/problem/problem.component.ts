@@ -10,8 +10,15 @@ export class ProblemComponent {
 
   @Input() problem!: Problem;
 
-  public openpdf() {
-    window.open(`http://uva.onlinejudge.org/external/${Math.floor(this.problem.num/100)}/${this.problem.num}.pdf`, "_blank");
+  public uvaLink() {
+    return `http://uva.onlinejudge.org/external/${Math.floor(this.problem.num/100)}/${this.problem.num}.pdf`;
+  }
+
+  public udebugLink() {
+    return `https://www.udebug.com/UVa/${this.problem.num}`;
+  }
+  public submitLink() {
+    return `https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=submit_problem&problemid=${this.problem.pid}`;
   }
 
   public setClasses() {
