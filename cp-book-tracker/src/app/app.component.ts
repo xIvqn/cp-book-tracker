@@ -84,6 +84,7 @@ export class AppComponent {
 
     this.bookSpinner = true;
     this.bookEdition = edition;
+    this.book = [];
 
     this.bookService.getBook(this.bookEdition, this.problems).subscribe({
       next: (response) => {
