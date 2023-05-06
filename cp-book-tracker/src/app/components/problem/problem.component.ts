@@ -14,6 +14,13 @@ export class ProblemComponent {
     return `https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=show_problem&problem=${this.problem.pid}`;
   }
 
+  public udebugLink() {
+    return `https://www.udebug.com/UVa/${this.problem.num}`;
+  }
+  public submitLink() {
+    return `https://onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&page=submit_problem&problemid=${this.problem.pid}`;
+  }
+
   public setClasses() {
     return {
       'text-white': (!this.problem.starred && (this.problem.status !== 0)) || this.problem.solved,
