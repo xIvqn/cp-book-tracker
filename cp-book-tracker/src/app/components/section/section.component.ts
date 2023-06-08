@@ -4,7 +4,7 @@ import { Section } from 'src/app/models/section.model';
 @Component({
   selector: 'app-section',
   templateUrl: './section.component.html',
-  styleUrls: ['./section.component.css']
+  styleUrls: [ ]
 })
 export class SectionComponent {
 
