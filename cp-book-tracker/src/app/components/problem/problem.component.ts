@@ -4,7 +4,7 @@ import { Problem } from '../../models/problem.model';
 @Component({
   selector: 'app-problem',
   templateUrl: './problem.component.html',
-  styleUrls: [ ]
+  styleUrls: ['./problem.component.css']
 })
 export class ProblemComponent {
 

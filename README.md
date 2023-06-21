@@ -11,6 +11,7 @@ As for now, the **CP Book Tracker** application has a live demo deployed using t
 ## Table of Contents
 
 - [Installation](#installation)
+- [Destop Application](#building)
 - [Features](#features)
 - [Usage](#usage)
 - [Tests](#tests)
@@ -47,6 +48,20 @@ Once you have the project built, you can now deploy it. Follow the steps for bui
 
 1. In a terminal, while on the Angular project folder, run the server with `ng build`.
 2. The build artifacts will be stored in the `dist/` directory.
+
+## Desktop Application
+
+Since version 1.1.0, you can now run the CP Book Tracker app as a desktop application. You can find it in [releases](https://github.com/xIvqn/cp-book-tracker/releases), under the assets section of the desired version.
+
+For using them, you just have to download the desired binaries and run the executable.
+
+### Build instructions
+
+Once you have the repository cloned and the project initialized (see [installation](#installation) section for further instructions), you just need to run `npm run package:[platform]` in a terminal while on the project directory replacing `[platform]` with the desired platform to build the binaries for it. This argument can be one of the following:
+
+* For Linux distros use `package:linux`.
+* For Windows use `package:win`.
+* For MacOS (Darwin) use `package:osx`.
 
 ## Features
 
