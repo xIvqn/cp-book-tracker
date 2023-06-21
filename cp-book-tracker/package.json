@@ -15,9 +15,9 @@
     "electron": "electron ./src/electron.dev",
     "electron-build": "ng build --configuration production && electron .",
     "package:win": "npm run build && cross-var electron-packager dist/$npm_package_name $npm_package_name-$npm_package_version --out=packages --platform=win32 --arch=all --overwrite ",
-  	"package:linux": "npm run build && cross-var electron-packager dist/$npm_package_name $npm_package_name-$npm_package_version --out=packages --platform=linux --arch=x64 --arch=arm64 --overwrite ",
- 	"package:osx": "npm run build && cross-var electron-packager dist/$npm_package_name $npm_package_name-$npm_package_version --out=packages --platform=darwin --arch=all --overwrite ",
-  	"package:all": "npm run build && cross-var electron-packager dist/$npm_package_name $npm_package_name-$npm_package_version --out=packages --platform=all --arch=x64 --arch=arm64 --overwrite "
+    "package:linux": "npm run build && cross-var electron-packager dist/$npm_package_name $npm_package_name-$npm_package_version --out=packages --platform=linux --arch=x64 --arch=arm64 --overwrite ",
+    "package:osx": "npm run build && cross-var electron-packager dist/$npm_package_name $npm_package_name-$npm_package_version --out=packages --platform=darwin --arch=all --overwrite ",
+    "package:all": "npm run build && cross-var electron-packager dist/$npm_package_name $npm_package_name-$npm_package_version --out=packages --platform=all --arch=x64 --arch=arm64 --overwrite "
   },
   "private": true,
   "dependencies": {
@@ -32,6 +32,8 @@
     "@ng-bootstrap/ng-bootstrap": "^14.1.0",
     "bootstrap": "^5.3.0-alpha3",
     "bootstrap-icons": "^1.10.4",
+    "cross-var-no-babel": "^1.2.0",
+    "json5": "^2.2.3",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"
@@ -42,7 +44,6 @@
     "@angular/compiler-cli": "^15.2.0",
     "@types/jasmine": "~4.3.0",
     "concurrently": "^8.2.0",
-    "cross-var": "^1.1.0",
     "electron": "^23.3.7",
     "electron-packager": "^17.1.1",
     "jasmine-core": "~4.5.0",
