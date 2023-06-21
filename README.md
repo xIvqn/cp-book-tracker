@@ -11,7 +11,7 @@ As for now, the **CP Book Tracker** application has a live demo deployed using t
 ## Table of Contents
 
 - [Installation](#installation)
-- [Destop Application](#building)
+- [Desktop Application](#desktop-application)
 - [Features](#features)
 - [Usage](#usage)
 - [Tests](#tests)
