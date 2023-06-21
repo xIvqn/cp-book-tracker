@@ -1,3 +1,10 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/66ee2b4b-50de-41cc-8726-7e790e51674f/deploy-status)](https://app.netlify.com/sites/cp-book-tracker/deploys)
+
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=xIvqn_cp-book-tracker&metric=bugs)](https://sonarcloud.io/summary/new_code?id=xIvqn_cp-book-tracker)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=xIvqn_cp-book-tracker&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=xIvqn_cp-book-tracker)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=xIvqn_cp-book-tracker&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=xIvqn_cp-book-tracker)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=xIvqn_cp-book-tracker&metric=coverage)](https://sonarcloud.io/summary/new_code?id=xIvqn_cp-book-tracker)
+
 # CP Book Tracker
 
 **CP Book Tracker** is a Single Page Application (SPA) built for tracking progress on the Competitive Programming Book written by _Felix Halim_. 
