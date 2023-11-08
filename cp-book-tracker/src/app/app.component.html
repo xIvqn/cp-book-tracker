@@ -9,16 +9,18 @@
         </button>
         <div class="collapse navbar-collapse" id="navbar">
             <div class="navbar-nav ms-auto px-3 px-lg-0">
-                <div class="input-group mx-lg-1 mt-3 mt-lg-0">
-                    <select class="form-select" (change)="selectEdition($any($event.target).value)" 
-                            [(ngModel)]="bookEdition" name="bookEdition">
-                        <option value="1">1st Edition</option>
-                        <option value="2">2nd Edition</option>
-                        <option value="3" selected>3rd Edition</option>
-                    </select>
+                <div class="btn-group mx-lg-1 mt-3 mt-lg-0">
+                    <input type="radio" class="btn-check" name="edition" id="edition1" autocomplete="off" (click)="selectEdition(1)">
+                    <label class="btn btn-outline-info text-nowrap" for="edition1">1st Edition</label>
+                
+                    <input type="radio" class="btn-check" name="edition" id="edition2" autocomplete="off" (click)="selectEdition(2)">
+                    <label class="btn btn-outline-info text-nowrap" for="edition2">2nd Edition</label>
+                
+                    <input type="radio" class="btn-check" name="edition" id="edition3" autocomplete="off" (click)="selectEdition(3)" checked>
+                    <label class="btn btn-outline-info text-nowrap" for="edition3">3rd Edition</label>
                 </div>
                 <form #f="ngForm" (ngSubmit)="selectUser(f)" novalidate 
-                    class="input-group mx-lg-1 my-2 my-lg-0">
+                    class="input-group mx-lg-1 my-2 my-lg-0 w-50">
                     <input class="form-control" placeholder="UVa username" aria-label="Search" 
                             ngModel name="user">
                     <button class="btn btn-outline-info">Search</button>
