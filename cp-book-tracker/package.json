@@ -14,10 +14,11 @@
     "test": "ng test",
     "electron": "electron ./src/electron.dev",
     "electron-build": "ng build --configuration production && electron .",
-    "package:win": "npm run build && cross-var electron-packager dist/$npm_package_name $npm_package_name-$npm_package_version --out=packages --platform=win32 --arch=all --overwrite ",
-    "package:linux": "npm run build && cross-var electron-packager dist/$npm_package_name $npm_package_name-$npm_package_version --out=packages --platform=linux --arch=x64 --arch=arm64 --overwrite ",
-    "package:osx": "npm run build && cross-var electron-packager dist/$npm_package_name $npm_package_name-$npm_package_version --out=packages --platform=darwin --arch=all --overwrite ",
-    "package:all": "npm run build && cross-var electron-packager dist/$npm_package_name $npm_package_name-$npm_package_version --out=packages --platform=all --arch=x64 --arch=arm64 --overwrite "
+    "zip-packages": "for dir in packages/*; do (cd \"$dir\" && zip -r \"../$(basename \"$dir\").zip\" . && cd ../.. && rm -rd \"$dir\"); done",
+    "package:win": "npm run build && cross-var electron-packager dist/$npm_package_name/browser $npm_package_name-$npm_package_version --out=packages --platform=win32 --arch=all --overwrite && npm run zip-packages ",
+    "package:linux": "npm run build && cross-var electron-packager dist/$npm_package_name/browser $npm_package_name-$npm_package_version --out=packages --platform=linux --arch=x64 --arch=arm64 --overwrite && npm run zip-packages ",
+    "package:osx": "npm run build && cross-var electron-packager dist/$npm_package_name/browser $npm_package_name-$npm_package_version --out=packages --platform=darwin --arch=all --overwrite && npm run zip-packages ",
+    "package:all": "npm run build && cross-var electron-packager dist/$npm_package_name/browser $npm_package_name-$npm_package_version --out=packages --platform=all --arch=x64 --arch=arm64 --overwrite && npm run zip-packages "
   },
   "private": true,
   "dependencies": {
