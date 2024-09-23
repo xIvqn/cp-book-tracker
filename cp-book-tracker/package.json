@@ -2,7 +2,7 @@
   "name": "cp-book-tracker",
   "productName": "CP Book Tracker",
   "description": "Single-page application (SPA) that helps users track their progress while studying the Competitive Programming book authored by Felix Halim.",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "main": "electron.prod.js",
   "license": "GPL-3.0",
   "scripts": {
@@ -43,7 +43,7 @@
     "@angular/compiler-cli": "^18.2.5",
     "@types/jasmine": "~4.3.0",
     "concurrently": "^8.2.0",
-    "electron": "^23.3.7",
+    "electron": "^32.1.2",
     "electron-packager": "^17.1.1",
     "jasmine-core": "~4.5.0",
     "karma": "~6.4.0",
