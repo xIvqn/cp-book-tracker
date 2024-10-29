@@ -9,6 +9,10 @@
         </button>
         <div class="collapse navbar-collapse" id="navbar">
             <div class="navbar-nav ms-auto px-3 px-lg-0">
+                <div class="mx-lg-1 mt-3 mt-lg-0">
+                    <button class="btn btn-outline-info" data-bs-toggle="modal" 
+                    data-bs-target="#exampleModal">Vcontest</button>
+                </div>
                 <div class="input-group mx-lg-1 mt-3 mt-lg-0">
                     <select class="form-select" (change)="selectEdition($any($event.target).value)" 
                             [(ngModel)]="bookEdition" name="bookEdition">
@@ -39,6 +43,8 @@
         <app-chapter [chapter]="chapter" *ngFor="let chapter of book"></app-chapter>
     </div>
 </div>
+
+<app-vcontest-modal></app-vcontest-modal>
 
 <footer class="pt-4 pb-2 fixed-bottom bg-body-tertiary rounded-top-4 mx-0 mx-md-3">
     <h6 class="text-center">
