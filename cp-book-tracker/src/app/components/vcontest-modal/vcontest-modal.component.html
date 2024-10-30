@@ -99,4 +99,20 @@
       User {{ userList.at(userList.length-1) }} has been added to the list of participants.
     </div>
   </div>
+  <div id="vcontestCreatedToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <span class="badge text-bg-info me-2"><i class="bi bi-check-lg"></i></span>
+      <strong class="me-auto">Vcontest creation</strong>
+      <small>now</small>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      The virtual contest has been created successfully.
+      <div *ngIf="vcontest !== undefined">
+        It will start at {{ timestampToDate(vcontest!.start_sbt) }} and end at {{ timestampToDate(vcontest!.end_sbt) }}.
+        <br><br>
+        Accessible at: <a href="https://uhunt.onlinejudge.org/vcontest/{{ vcontest!.id }}" target="_blank" rel="noopener">https://uhunt.onlinejudge.org/vcontest/{{ vcontest!.id }}</a>.
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Vcontest } from 'src/app/models/vcontest.model';
 import { BookService } from 'src/app/services/book.service';
 import { UserService } from 'src/app/services/user.service';
+import { VcontestService } from 'src/app/services/vcontest.service';
 
 @Component({
   selector: 'app-vcontest-modal',
@@ -11,9 +13,9 @@ export class VcontestModalComponent {
 
   public userList: string[] = [];
   private ids: string[] = [];
-  public vcontestId: string = '';
+  public vcontest: Vcontest | undefined;
 
-  constructor(private userService: UserService, private bookService: BookService) { }
+  constructor(private userService: UserService, private bookService: BookService, private vcontestService: VcontestService) { }
 
   public onUserInput(event: KeyboardEvent) {
 
@@ -85,7 +87,20 @@ export class VcontestModalComponent {
     }
 
     let problems = this.selectProblemNums();
-    console.log(problems.join(","));
+
+    const vcontest: Vcontest = {
+      id: undefined,
+      start_sbt: start_time.getTime(),
+      end_sbt: end_time.getTime(),
+      problem_numbers: problems,
+      user_ids: this.ids.map(Number)
+    };
+
+    this.vcontestService.createVcontest(vcontest).subscribe((vcontest) => {
+      this.vcontest = vcontest;
+    
+      this.toggleToast('vcontestCreatedToast', 10);
+    });
   }
 
   private setHourToCurrentDate(hour: string) {
@@ -102,6 +117,10 @@ export class VcontestModalComponent {
     setTimeout(() => {
       document.getElementById(toastId)!.classList.remove('show');
     }, seconds * 1000);
+  }
+
+  public timestampToDate(timestamp: number) {
+    return new Date(timestamp).toLocaleString();
   }
 
 }
