@@ -24,8 +24,15 @@ export class VcontestModalComponent {
 
       // Call your desired function with the extracted user
       this.userService.getId(lastUser).subscribe((id) => {
+        if (id == 0) {
+          this.toggleToast('incorrectUserToast', 5);
+        } else if (this.ids.includes(id.toString())) {
+          this.toggleToast('repeatedUserToast', 5);
+        } else {
           this.ids.push(id.toString());
           this.userList.push(`${lastUser} (#${id})`);
+          this.toggleToast('userAddedToast', 2);
+        }
       });
 
       // Clear the input field after processing
@@ -39,6 +46,13 @@ export class VcontestModalComponent {
     console.log(f.value.start_time);
     console.log(f.value.end_time);
     console.log(this.ids);
+  }
+
+  private toggleToast(toastId: string, seconds: number) {
+    document.getElementById(toastId)!.classList.add('show');
+    setTimeout(() => {
+      document.getElementById(toastId)!.classList.remove('show');
+    }, seconds * 1000);
   }
 
 }

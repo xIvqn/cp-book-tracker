@@ -41,3 +41,39 @@
     </div>
   </div>
 </div>
+
+<div class="toast-container position-fixed top-0 start-0 p-3">
+  <div id="incorrectUserToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <span class="badge text-bg-danger me-2"><i class="bi bi-exclamation-lg"></i></span>
+      <strong class="me-auto">Incorrect user name</strong>
+      <small>now</small>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      The user could not be found. Please try again.
+    </div>
+  </div>
+  <div id="repeatedUserToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <span class="badge text-bg-danger me-2"><i class="bi bi-exclamation-lg"></i></span>
+      <strong class="me-auto">User is a participant</strong>
+      <small>now</small>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      This user is already a participant in the contest. Please add a different user.
+    </div>
+  </div>
+  <div id="userAddedToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <span class="badge text-bg-info me-2"><i class="bi bi-check-lg"></i></span>
+      <strong class="me-auto">New participant</strong>
+      <small>now</small>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      User {{ userList.at(userList.length-1) }} has been added to the list of participants.
+    </div>
+  </div>
+</div>
