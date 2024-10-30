@@ -41,6 +41,12 @@ export class VcontestModalComponent {
 
   }
 
+  public removeUser(user: string) {
+    const index = this.userList.indexOf(user);
+    this.userList.splice(index, 1);
+    this.ids.splice(index, 1);
+  }
+
   public onSubmit(f: NgForm) {
     console.log(f.value);
     console.log(f.value.start_time);
