@@ -11,6 +11,10 @@ export class UserService {
 
   constructor(private httpClient: HttpClient) { }
 
+  public getId(username: string): Observable<number> {
+    return this.httpClient.get<number>(`${this.url}/uname2uid/${username}`);
+  }
+
   public getSolved(username: string): Observable<number[]> {
     
     return new Observable<number[]>((subscriber) => {

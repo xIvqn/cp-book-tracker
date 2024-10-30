@@ -1,20 +1,42 @@
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria- 
   labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Virtual contest</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" 
-       aria-label="Close"></button>
+            aria-label="Close"></button>
       </div>
       <div class="modal-body">
-       Virtual contest information will be displayed here.
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-warning" data-bs-dismiss="modal">
-          Close
-        </button>
+        <div class="my-2">
+          Virtual contest information will be displayed here.
+        </div>
+        <form class="row g-3" #f="ngForm" (ngSubmit)="onSubmit(f)">
+          <div class="col-md-6">
+            <label for="start_time" class="col-sm-4 col-form-label">Start time</label>
+            <input type="time" class="form-control" aria-label="Start time" aria-describedby="start_time" name="start_time" ngModel> 
+          </div>
+          <div class="col-md-6">
+            <label for="end_time" class="col-sm-4 col-form-label">End time</label>
+            <input type="time" class="form-control" aria-label="End time" aria-describedby="end_time" name="end_time" ngModel>
+          </div>
+          <div class="col-12">
+            <label for="inputAddress" class="form-label">Participants (comma-separated)</label>
+            <input type="text" class="form-control" id="inputAddress" placeholder="user1" (keyup)="onUserInput($event)">
+            <div class="mt-3 gap-2">
+              <span class="badge text-bg-info me-1" *ngFor="let user of userList">
+                <span class="my-auto">
+                  {{ user }}
+                </span>
+                <button type="button" class="btn-close" aria-label="Close"></button>
+              </span>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-success">
+            Create
+          </button>
+        </form>
       </div>
     </div>
   </div>
