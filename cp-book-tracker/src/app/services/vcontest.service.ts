@@ -13,16 +13,24 @@ export class VcontestService {
   constructor(private httpClient: HttpClient) { }
 
   public createVcontest(vcontest: Vcontest): Observable<Vcontest> {
+
+    let httpParams = new HttpParams().appendAll({
+      "start_sbt": vcontest.start_sbt.toString(),
+      "end_sbt": vcontest.end_sbt.toString()
+    });
+    vcontest.problem_numbers.forEach((problem_number) => {
+      httpParams = httpParams.append("problem_numbers", problem_number.toString());
+      console.log(problem_number);
+    });
+    vcontest.user_ids.forEach((user_id) => {
+      httpParams = httpParams.append("user_ids", user_id.toString());
+    });
+    
     
     return new Observable<Vcontest>((subscriber) => {
   
       this.httpClient.post<any>(`${this.url}`, null, {
-        params: new HttpParams().appendAll({
-          "problem_numbers": vcontest.problem_numbers.join(","),
-          "user_ids": vcontest.user_ids.join(","),
-          "start_sbt": vcontest.start_sbt.toString(),
-          "end_sbt": vcontest.end_sbt.toString()
-        })
+        params: httpParams
       }).subscribe((response) => {
           if (response["ok"] == "false") {
             subscriber.error("Could not create vcontest");
