@@ -10,7 +10,7 @@
       </div>
       <div class="modal-body">
         <div class="my-2">
-          Virtual contest information will be displayed here.
+          As for now, vistual contests can only be created with a random set of problems from the current book edition.
         </div>
         <form class="row g-3" #f="ngForm" (ngSubmit)="onSubmit(f)">
           <div class="col-md-6">
@@ -33,7 +33,8 @@
               </span>
             </div>
           </div>
-          <button type="submit" class="btn btn-success">
+          <button type="submit" class="btn btn-success" data-bs-dismiss="modal" 
+          aria-label="Create">
             Create
           </button>
         </form>
@@ -63,6 +64,28 @@
     </div>
     <div class="toast-body">
       This user is already a participant in the contest. Please add a different user.
+    </div>
+  </div>
+  <div id="minUserToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <span class="badge text-bg-danger me-2"><i class="bi bi-exclamation-lg"></i></span>
+      <strong class="me-auto">No participants</strong>
+      <small>now</small>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      The contest must have at least one participant.
+    </div>
+  </div>
+  <div id="invalidTimesToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <span class="badge text-bg-danger me-2"><i class="bi bi-exclamation-lg"></i></span>
+      <strong class="me-auto">Invalid times</strong>
+      <small>now</small>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      Check the start and end times of the contest. <br>The end time must be later than the start time, and both must be in the future.
     </div>
   </div>
   <div id="userAddedToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">

@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
 export class BookService {
 
   problems!: Map<number, Problem>;
+  book!: Chapter[];
   url: string = "https://uhunt.onlinejudge.org/api/cpbook";
 
   constructor(private httpClient: HttpClient) { }
@@ -21,7 +22,8 @@ export class BookService {
     return new Observable<Chapter[]>((subscriber) => {
 
       this.problems = problems;
-      let book: Chapter[] = [];
+      this.book = [];
+      let book: Chapter[] = this.book;
       let solved: number = 0;
       let total: number = 0;
   
