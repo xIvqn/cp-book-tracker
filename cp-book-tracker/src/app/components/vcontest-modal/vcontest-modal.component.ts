@@ -90,8 +90,8 @@ export class VcontestModalComponent {
 
     const vcontest: Vcontest = {
       id: undefined,
-      start_sbt: start_time.getTime(),
-      end_sbt: end_time.getTime(),
+      start_sbt: start_time.getTime() / 1000,
+      end_sbt: end_time.getTime() / 1000,
       problem_numbers: problems,
       user_ids: this.ids.map(Number)
     };
