@@ -13,13 +13,19 @@
           As for now, vistual contests can only be created with a random set of problems from the current book edition.
         </div>
         <form class="row g-3" #f="ngForm" (ngSubmit)="onSubmit(f)">
-          <div class="col-md-6">
-            <label for="start_time" class="col-sm-4 col-form-label">Start time</label>
+          <div class="col-md-4">
+            <label for="start_time" class="form-label">Start time</label>
             <input type="time" class="form-control" aria-label="Start time" aria-describedby="start_time" name="start_time" ngModel> 
           </div>
-          <div class="col-md-6">
-            <label for="end_time" class="col-sm-4 col-form-label">End time</label>
+          <div class="col-md-4">
+            <input class="form-check-input me-1" type="radio" name="end_type" id="radio-end_time" value="end_time" ngModel>
+            <label for="radio-end_time" class="form-label">End time</label>
             <input type="time" class="form-control" aria-label="End time" aria-describedby="end_time" name="end_time" ngModel>
+          </div>
+          <div class="col-md-4">
+            <input class="form-check-input me-1" type="radio" name="end_type" id="radio-duration" value="duration" ngModel>
+            <label for="radio-duration" class="form-label">Duration</label>
+            <input type="text" class="form-control" aria-label="Duration" aria-describedby="duration" name="duration" ngModel>
           </div>
           <div class="col-12">
             <label for="inputAddress" class="form-label">Participants (comma-separated)</label>
@@ -85,7 +91,7 @@
       <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
     </div>
     <div class="toast-body">
-      Check the start and end times of the contest. <br>The end time must be later than the start time, and both must be in the future.
+      Check the start and end times of the contest. <br>The end time must be later than the start time, and both must be in the future. <br>Also one of End time or Duration must be selected.
     </div>
   </div>
   <div id="userAddedToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">

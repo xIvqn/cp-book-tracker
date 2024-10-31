@@ -72,14 +72,26 @@ export class VcontestModalComponent {
       return;
     }
     
-    if (f.value.start_time.length === 0 || f.value.end_time.length === 0) {
+    if (f.value.start_time.length === 0 || (f.value.end_time.length === 0 && f.value.duration.length === 0)) {
       this.toggleToast('invalidTimesToast', 5);
       return;
     }
 
     const start_time = this.setHourToCurrentDate(f.value.start_time);
-    const end_time = this.setHourToCurrentDate(f.value.end_time);
     const currentDate = new Date();
+    const selectedOption = f.value.end_type;
+    const duration = f.value.duration;
+    let end_time = new Date();
+
+    if (selectedOption == "end_time") {
+      end_time = this.setHourToCurrentDate(f.value.end_time);
+    } else if (selectedOption == "duration") {
+      end_time = this.getDateFromDuration(start_time, duration);
+    } else {
+      this.toggleToast('invalidTimesToast', 5);
+      return;
+    }
+    
 
     if (start_time >= end_time || start_time < currentDate) {
       this.toggleToast('invalidTimesToast', 5);
@@ -101,6 +113,21 @@ export class VcontestModalComponent {
     
       this.toggleToast('vcontestCreatedToast', 10);
     });
+  }
+
+  private getDateFromDuration(startTime: Date, duration: string) {
+    let endDate = new Date();
+    let units = 1000;
+
+    switch (duration.charAt(duration.length - 1)) {
+      case "m": units *= 60; break;
+      case "h": units *= 60 * 60; break;
+      case "d": units *= 60 * 60 * 24; break;
+    }    
+
+    endDate.setTime(startTime.getTime() + parseInt(duration) * units);
+
+    return endDate;
   }
 
   private setHourToCurrentDate(hour: string) {
