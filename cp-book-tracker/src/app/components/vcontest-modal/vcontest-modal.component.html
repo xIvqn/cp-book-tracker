@@ -20,12 +20,12 @@
             <input type="time" class="form-control" aria-label="Start time" aria-describedby="start_time" name="start_time" ngModel> 
           </div>
           <div class="col-md-4">
-            <input class="form-check-input me-1" type="radio" name="end_type" id="radio-end_time" value="end_time" ngModel>
+            <input class="form-check-input me-1" type="radio" name="end_type" id="radio-end_time" value="end_time" [ngModel]="endType">
             <label for="radio-end_time" class="form-label">End time</label>
             <input type="time" class="form-control" aria-label="End time" aria-describedby="end_time" name="end_time" ngModel>
           </div>
           <div class="col-md-4">
-            <input class="form-check-input me-1" type="radio" name="end_type" id="radio-duration" value="duration" ngModel>
+            <input class="form-check-input me-1" type="radio" name="end_type" id="radio-duration" value="duration" [ngModel]="endType">
             <label for="radio-duration" class="form-label">Duration</label>
             <input type="text" class="form-control" aria-label="Duration" aria-describedby="duration" name="duration" ngModel>
           </div>

@@ -14,6 +14,7 @@ export class VcontestModalComponent {
   public userList: string[] = [];
   private ids: string[] = [];
   public vcontest: Vcontest | undefined;
+  public endType = "duration";
 
   constructor(private userService: UserService, private bookService: BookService, private vcontestService: VcontestService) { }
 
