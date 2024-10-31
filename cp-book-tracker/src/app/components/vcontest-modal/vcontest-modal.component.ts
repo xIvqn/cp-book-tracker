@@ -23,20 +23,28 @@ export class VcontestModalComponent {
 
     // Check if the last character is a comma
     if (inputValue.endsWith(',')) {
-      // Extract the last user before the comma
-      const lastUser = inputValue.substring(0, inputValue.length - 1).trim();
+      // Extract the users between commas
+      const users = inputValue.slice(0, inputValue.length-1).split(',');
 
-      // Call your desired function with the extracted user
-      this.userService.getId(lastUser).subscribe((id) => {
-        if (id == 0) {
-          this.toggleToast('incorrectUserToast', 5);
-        } else if (this.ids.includes(id.toString())) {
-          this.toggleToast('repeatedUserToast', 5);
-        } else {
-          this.ids.push(id.toString());
-          this.userList.push(`${lastUser} (#${id})`);
-          this.toggleToast('userAddedToast', 2);
+      users.forEach((user) => {
+        const trimmedUser = user.trim();
+
+        if (trimmedUser.length < 1) {
+          return;
         }
+        
+        // Get the user id and add it to the list if it is valid
+        this.userService.getId(trimmedUser).subscribe((id) => {
+          if (id == 0) {
+            this.toggleToast('incorrectUserToast', 5);
+          } else if (this.ids.includes(id.toString())) {
+            this.toggleToast('repeatedUserToast', 5);
+          } else {
+            this.ids.push(id.toString());
+            this.userList.push(`${trimmedUser} (#${id})`);
+            this.toggleToast('userAddedToast', 2);
+          }
+        });
       });
 
       // Clear the input field after processing
