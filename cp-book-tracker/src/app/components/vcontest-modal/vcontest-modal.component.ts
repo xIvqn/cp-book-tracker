@@ -123,6 +123,7 @@ export class VcontestModalComponent {
       case "m": units *= 60; break;
       case "h": units *= 60 * 60; break;
       case "d": units *= 60 * 60 * 24; break;
+      default: return endDate;
     }    
 
     endDate.setTime(startTime.getTime() + parseInt(duration) * units);

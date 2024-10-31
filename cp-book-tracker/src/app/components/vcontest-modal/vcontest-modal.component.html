@@ -11,8 +11,10 @@
       <div class="modal-body">
         <div class="my-2">
           As for now, vistual contests can only be created with a random set of problems from the current book edition.
+          <br><br>
+          Duration can be specified in minutes (m), hours (h) or days (d). For example: 30m, 1h or 2d.
         </div>
-        <form class="row g-3" #f="ngForm" (ngSubmit)="onSubmit(f)">
+        <form class="row g-3 mt-2" #f="ngForm" (ngSubmit)="onSubmit(f)">
           <div class="col-md-4">
             <label for="start_time" class="form-label">Start time</label>
             <input type="time" class="form-control" aria-label="Start time" aria-describedby="start_time" name="start_time" ngModel> 
@@ -91,7 +93,7 @@
       <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
     </div>
     <div class="toast-body">
-      Check the start and end times of the contest. <br>The end time must be later than the start time, and both must be in the future. <br>Also one of End time or Duration must be selected.
+      Check the start and end times of the contest. <br>The end time must be later than the start time, and both must be in the future. <br>Also one of end time or duration must be selected, and duration must end with "m", "h" or "d".
     </div>
   </div>
   <div id="userAddedToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
