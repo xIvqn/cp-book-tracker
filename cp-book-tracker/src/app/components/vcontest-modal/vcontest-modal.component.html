@@ -14,24 +14,26 @@
           <br><br>
           Duration can be specified in minutes (m), hours (h) or days (d). For example: 30m, 1h or 2d.
         </div>
-        <form class="row g-3 mt-2" #f="ngForm" (ngSubmit)="onSubmit(f)">
+        <form class="row g-3 mt-2" #vcontestForm="ngForm" (ngSubmit)="onSubmit(vcontestForm)">
           <div class="col-md-4">
             <label for="start_time" class="form-label">Start time</label>
+            <input type="date" class="form-control mb-2" aria-label="Start date" aria-describedby="start_time" name="start_date" ngModel> 
             <input type="time" class="form-control" aria-label="Start time" aria-describedby="start_time" name="start_time" ngModel> 
           </div>
           <div class="col-md-4">
-            <input class="form-check-input me-1" type="radio" name="end_type" id="radio-end_time" value="end_time" [ngModel]="endType">
+            <input class="form-check-input me-1" type="radio" name="end_type" id="radio-end_time" value="end_time" ngModel>
             <label for="radio-end_time" class="form-label">End time</label>
+            <input type="date" class="form-control mb-2" aria-label="End date" aria-describedby="end_time" name="end_date" ngModel> 
             <input type="time" class="form-control" aria-label="End time" aria-describedby="end_time" name="end_time" ngModel>
           </div>
           <div class="col-md-4">
-            <input class="form-check-input me-1" type="radio" name="end_type" id="radio-duration" value="duration" [ngModel]="endType">
+            <input class="form-check-input me-1" type="radio" name="end_type" id="radio-duration" value="duration" ngModel>
             <label for="radio-duration" class="form-label">Duration</label>
             <input type="text" class="form-control" aria-label="Duration" aria-describedby="duration" name="duration" ngModel>
           </div>
           <div class="col-12">
-            <label for="inputAddress" class="form-label">Participants (comma-separated)</label>
-            <input type="text" class="form-control" id="inputAddress" placeholder="Username" (keyup)="onUserInput($event)">
+            <label for="participants" class="form-label">Participants (comma-separated)</label>
+            <input type="text" class="form-control" id="participants" placeholder="Username" (keyup)="onUserInput($event)">
             <div class="mt-3 gap-2">
               <span class="badge text-bg-info me-1" *ngFor="let user of userList">
                 <span class="my-auto">

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Vcontest } from 'src/app/models/vcontest.model';
 import { BookService } from 'src/app/services/book.service';
@@ -14,9 +14,25 @@ export class VcontestModalComponent {
   public userList: string[] = [];
   private ids: string[] = [];
   public vcontest: Vcontest | undefined;
-  public endType = "duration";
+  @ViewChild('vcontestForm') vcontestForm!: NgForm;
 
   constructor(private userService: UserService, private bookService: BookService, private vcontestService: VcontestService) { }
+
+  ngAfterViewInit() {
+    const defaultStartDate = new Date(new Date().getTime() + 5 * 60 * 1000);          // 5 minutes later
+    const defaultEndDate = new Date(defaultStartDate.getTime() + 3 * 60 * 60 * 1000); // 3 hours later
+
+    setTimeout(() => {
+      this.vcontestForm.form.patchValue({
+        end_type: "duration",
+        start_date: defaultStartDate.toISOString().slice(0, 10),
+        end_date: defaultEndDate.toISOString().slice(0, 10),
+        start_time: defaultStartDate.toTimeString().slice(0, 5),
+        end_time: defaultEndDate.toTimeString().slice(0, 5),
+        duration: "3h"
+      });
+    }, 1000);
+  }
 
   public onUserInput(event: KeyboardEvent) {
 
@@ -75,25 +91,25 @@ export class VcontestModalComponent {
     return problems;
   }
 
-  public onSubmit(f: NgForm) {
+  public onSubmit(vcontestForm: NgForm) {
     if (this.userList.length < 1) {
       this.toggleToast('minUserToast', 5);
       return;
     }
     
-    if (f.value.start_time.length === 0 || (f.value.end_time.length === 0 && f.value.duration.length === 0)) {
+    if (vcontestForm.value.start_time.length === 0 || (vcontestForm.value.end_time.length === 0 && vcontestForm.value.duration.length === 0)) {
       this.toggleToast('invalidTimesToast', 5);
       return;
     }
 
-    const start_time = this.setHourToCurrentDate(f.value.start_time);
+    const start_time = new Date(`${vcontestForm.value.start_date} ${vcontestForm.value.start_time}`);
     const currentDate = new Date();
-    const selectedOption = f.value.end_type;
-    const duration = f.value.duration;
+    const selectedOption = vcontestForm.value.end_type;
+    const duration = vcontestForm.value.duration;
     let end_time = new Date();
 
     if (selectedOption == "end_time") {
-      end_time = this.setHourToCurrentDate(f.value.end_time);
+      end_time = new Date(`${vcontestForm.value.end_date} ${vcontestForm.value.end_time}`);
     } else if (selectedOption == "duration") {
       end_time = this.getDateFromDuration(start_time, duration);
     } else {
