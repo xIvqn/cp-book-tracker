@@ -12,6 +12,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "deploy": "ng build --configuration production --base-href=/cp-book-tracker/",
     "electron": "electron ./src/electron.dev",
     "electron-build": "ng build --configuration production && electron .",
     "zip-packages": "rm -f packages/*.zip && for dir in packages/*; do (cd \"$dir\" && zip -r \"../$(basename \"$dir\").zip\" . && cd ../.. && rm -rd \"$dir\"); done",
