@@ -12,6 +12,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "deploy": "ng build --configuration production --base-href=/cp-book-tracker/",
     "electron": "electron ./src/electron.dev",
     "electron-build": "ng build --configuration production && electron .",
     "zip-packages": "rm -f packages/*.zip && for dir in packages/*; do (cd \"$dir\" && zip -r \"../$(basename \"$dir\").zip\" . && cd ../.. && rm -rd \"$dir\"); done",
@@ -22,29 +23,29 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^18.2.5",
-    "@angular/common": "^18.2.5",
-    "@angular/compiler": "^18.2.5",
-    "@angular/core": "^18.2.5",
-    "@angular/forms": "^18.2.5",
-    "@angular/platform-browser": "^18.2.5",
-    "@angular/platform-browser-dynamic": "^18.2.5",
-    "@angular/router": "^18.2.5",
+    "@angular/animations": "^19.2.16",
+    "@angular/common": "^19.2.16",
+    "@angular/compiler": "^19.2.16",
+    "@angular/core": "^19.2.16",
+    "@angular/forms": "^19.2.16",
+    "@angular/platform-browser": "^19.2.16",
+    "@angular/platform-browser-dynamic": "^19.2.16",
+    "@angular/router": "^19.2.16",
     "bootstrap": "^5.3.0-alpha3",
     "bootstrap-icons": "^1.10.4",
     "cross-var-no-babel": "^1.2.0",
     "json5": "^2.2.3",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.14.10"
+    "zone.js": "~0.15.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^18.2.5",
-    "@angular/cli": "~18.2.5",
-    "@angular/compiler-cli": "^18.2.5",
+    "@angular-devkit/build-angular": "^19.2.1",
+    "@angular/cli": "^19.2.1",
+    "@angular/compiler-cli": "^19.2.16",
     "@types/jasmine": "~4.3.0",
     "concurrently": "^8.2.0",
-    "electron": "^32.1.2",
+    "electron": "^39.2.7",
     "electron-packager": "^17.1.1",
     "jasmine-core": "~4.5.0",
     "karma": "~6.4.0",
@@ -52,6 +53,6 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
-    "typescript": "~5.4.5"
+    "typescript": "~5.7.2"
   }
 }

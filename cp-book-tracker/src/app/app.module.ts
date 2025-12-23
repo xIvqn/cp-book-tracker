@@ -9,13 +9,18 @@ import { ChapterComponent } from './components/chapter/chapter.component';
 import { SectionComponent } from './components/section/section.component';
 import { ProblemSetComponent } from './components/problem-set/problem-set.component';
 
-@NgModule({ declarations: [
+@NgModule({
+    declarations: [],
+    bootstrap: [AppComponent],
+    imports: [
+        BrowserModule,
+        FormsModule,
         AppComponent,
-        ProblemComponent,
         ChapterComponent,
+        ProblemComponent,
         SectionComponent,
         ProblemSetComponent
     ],
-    bootstrap: [AppComponent], imports: [BrowserModule,
-        FormsModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
+    providers: [provideHttpClient(withInterceptorsFromDi())]
+})
 export class AppModule { }

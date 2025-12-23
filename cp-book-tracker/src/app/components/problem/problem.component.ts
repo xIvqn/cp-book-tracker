@@ -1,8 +1,11 @@
 import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Problem } from '../../models/problem.model';
 
 @Component({
   selector: 'app-problem',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './problem.component.html',
   styleUrls: ['./problem.component.css']
 })
@@ -11,7 +14,7 @@ export class ProblemComponent {
   @Input() problem!: Problem;
 
   public uvaLink() {
-    return `http://uva.onlinejudge.org/external/${Math.floor(this.problem.num/100)}/${this.problem.num}.pdf`;
+    return `http://uva.onlinejudge.org/external/${Math.floor(this.problem.num / 100)}/${this.problem.num}.pdf`;
   }
 
   public udebugLink() {
@@ -27,8 +30,8 @@ export class ProblemComponent {
       'bg-light-subtle': !this.problem.starred && (this.problem.status !== 0) && !this.problem.solved,
       'text-dark': (this.problem.starred || this.problem.status === 0) && !this.problem.solved,
       'bg-warning': this.problem.starred && (this.problem.status !== 0) && !this.problem.solved,
-      'bg-danger':  this.problem.status === 0 && !this.problem.solved,
-      'bg-success':  this.problem.solved
+      'bg-danger': this.problem.status === 0 && !this.problem.solved,
+      'bg-success': this.problem.solved
     };
   }
 

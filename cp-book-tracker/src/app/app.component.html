@@ -10,17 +10,15 @@
         <div class="collapse navbar-collapse" id="navbar">
             <div class="navbar-nav ms-auto px-3 px-lg-0">
                 <div class="input-group mx-lg-1 mt-3 mt-lg-0">
-                    <select class="form-select" (change)="selectEdition($any($event.target).value)" 
-                            [(ngModel)]="bookEdition" name="bookEdition">
+                    <select class="form-select" (change)="selectEdition($any($event.target).value)"
+                        [(ngModel)]="bookEdition" name="bookEdition">
                         <option value="1">1st Edition</option>
                         <option value="2">2nd Edition</option>
                         <option value="3" selected>3rd Edition</option>
                     </select>
                 </div>
-                <form #f="ngForm" (ngSubmit)="selectUser(f)" novalidate 
-                    class="input-group mx-lg-1 my-2 my-lg-0">
-                    <input class="form-control" placeholder="UVa username" aria-label="Search" 
-                            ngModel name="user">
+                <form #f="ngForm" (ngSubmit)="selectUser(f)" novalidate class="input-group mx-lg-1 my-2 my-lg-0">
+                    <input class="form-control" placeholder="UVa username" aria-label="Search" ngModel name="user">
                     <button class="btn btn-outline-info">Search</button>
                 </form>
             </div>
@@ -29,9 +27,14 @@
 </nav>
 
 <div class="container-fluid p-4 mb-5">
-    <div class="d-flex justify-content-center mb-5 mt-2" *ngIf="bookSpinner || userSpinner">
-        <div class="spinner-border" role="status">
-            <span class="visually-hidden">Loading...</span>
+    <div class="row g-3" *ngIf="bookSpinner || userSpinner">
+        <div class="col-12 mb-2" *ngFor="let length of [8, 6, 9, 5, 7]">
+            <div class="accordion-item shadow-sm border rounded-2 p-3 placeholder-glow">
+                <div class="d-flex align-items-center">
+                    <span class="placeholder rounded-2 py-3" [ngClass]="'col-' + length"></span>
+                    <span class="placeholder py-2 badge ms-2 col-1">.</span>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -42,13 +45,13 @@
 
 <footer class="pt-4 pb-2 fixed-bottom bg-body-tertiary rounded-top-4 mx-0 mx-md-3">
     <h6 class="text-center">
-        &lt;/&gt; with 💙 by 
-        <a href="https://github.com/xIvqn" target="_blank" class="text-primary-emphasis" rel="noopener">xIvqn</a> 
-        using 
+        &lt;/&gt; with 💙 by
+        <a href="https://github.com/xIvqn" target="_blank" class="text-primary-emphasis" rel="noopener">xIvqn</a>
+        using
         <a href="https://angular.io/" target="_blank" rel="noopener">
             <img src="assets/angular-logo.svg" alt="Angular" style="max-height: 1.5em;" class="mx-1">
-        </a> 
-        and 
+        </a>
+        and
         <a href="https://uhunt.onlinejudge.org/api" target="_blank" rel="noopener">
             <img src="assets/uva-logo.png" alt="uHunt API" style="max-height: 1.5em;" class="mx-1">
         </a>.
