@@ -10,13 +10,12 @@ import { SectionComponent } from './components/section/section.component';
 import { ProblemSetComponent } from './components/problem-set/problem-set.component';
 
 @NgModule({
-    declarations: [
-        AppComponent
-    ],
+    declarations: [],
     bootstrap: [AppComponent],
     imports: [
         BrowserModule,
         FormsModule,
+        AppComponent,
         ChapterComponent,
         ProblemComponent,
         SectionComponent,
