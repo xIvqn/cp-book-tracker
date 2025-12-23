@@ -33,7 +33,7 @@ jobs:
         cd ..
 
     - name: Deploy
-      uses: JamesIves/github-pages-deploy-action@releases/v4
+      uses: JamesIves/github-pages-deploy-action@v4
       with:
-        BRANCH: gh-pages
-        FOLDER: cp-book-tracker/dist/cp-book-tracker/browser
+        branch: gh-pages
+        folder: cp-book-tracker/dist/cp-book-tracker/browser
