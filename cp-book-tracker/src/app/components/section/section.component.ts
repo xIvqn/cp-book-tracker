@@ -1,10 +1,13 @@
 import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Section } from 'src/app/models/section.model';
 
 @Component({
   selector: 'app-section',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './section.component.html',
-  styleUrls: [ ]
+  styleUrls: []
 })
 export class SectionComponent {
 
@@ -12,7 +15,7 @@ export class SectionComponent {
   allSolved: boolean = false;
 
   getSolved(): string {
-    
+
     this.allSolved = this.section.solved === this.section.total;
 
     return `${this.section.solved} / ${this.section.total}`;

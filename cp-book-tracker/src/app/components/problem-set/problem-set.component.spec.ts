@@ -8,9 +8,9 @@ describe('ProblemSetComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ProblemSetComponent ]
+      imports: [ProblemSetComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(ProblemSetComponent);
     component = fixture.componentInstance;

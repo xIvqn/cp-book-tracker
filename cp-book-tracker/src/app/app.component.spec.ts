@@ -20,8 +20,7 @@ describe('AppComponent', () => {
     const uSpy = jasmine.createSpyObj('UserService', ['getSolved']);
 
     await TestBed.configureTestingModule({
-      imports: [FormsModule],
-      declarations: [AppComponent],
+      imports: [AppComponent, FormsModule],
       providers: [
         { provide: BookService, useValue: bSpy },
         { provide: UserService, useValue: uSpy },
