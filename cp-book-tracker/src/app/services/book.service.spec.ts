@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting, HttpTestingController } from '@angular/common/http/testing';
 import { BookService } from './book.service';
 import { Problem } from '../models/problem.model';
 
@@ -9,8 +10,11 @@ describe('BookService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [BookService]
+      providers: [
+        BookService,
+        provideHttpClient(),
+        provideHttpClientTesting()
+      ]
     });
     service = TestBed.inject(BookService);
     httpMock = TestBed.inject(HttpTestingController);

@@ -1,5 +1,6 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting, HttpTestingController } from '@angular/common/http/testing';
 import { FormsModule } from '@angular/forms';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { of } from 'rxjs';
@@ -19,11 +20,13 @@ describe('AppComponent', () => {
     const uSpy = jasmine.createSpyObj('UserService', ['getSolved']);
 
     await TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, FormsModule],
+      imports: [FormsModule],
       declarations: [AppComponent],
       providers: [
         { provide: BookService, useValue: bSpy },
-        { provide: UserService, useValue: uSpy }
+        { provide: UserService, useValue: uSpy },
+        provideHttpClient(),
+        provideHttpClientTesting()
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
