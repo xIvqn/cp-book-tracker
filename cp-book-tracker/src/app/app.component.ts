@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { NgForm } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 
 import { interval, Subscription } from 'rxjs';
 
@@ -11,12 +12,15 @@ import { Problem } from './models/problem.model';
 
 import { BookService } from './services/book.service';
 import { UserService } from './services/user.service';
+import { ChapterComponent } from './components/chapter/chapter.component';
 
 
 const userRefreshInterval = 30000;
 
 @Component({
   selector: 'app-root',
+  standalone: true,
+  imports: [CommonModule, FormsModule, ChapterComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })

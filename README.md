@@ -13,7 +13,6 @@
 
 As an enthusiast of competitive programming, I was looking for some incentive to progress on the CP Book. Since the [uHunt](https://uhunt.onlinejudge.org/) webpage provides a compact interface for that book's problems, I decided to create a more visual and intuitive version of that, using _Node.js_, _Angular_ and _TypeScript_ to deepen into web application development.
 
-As for now, the **CP Book Tracker** application has a live demo deployed using the [Netlify](https://netlify.com) service. However, it can be built and run locally, see details below.
 
 ## Table of Contents
 
@@ -28,7 +27,7 @@ As for now, the **CP Book Tracker** application has a live demo deployed using t
 
 ## Installation
 
-If you just want to use the application, you can use the [live version](https://cp-book-tracker.netlify.app/).
+If you just want to use the application, you can use the [live version](https://xivqn.github.io/cp-book-tracker/).
 
 Otherwise, you can either run it locally or build it for production. Follow the steps to clone the repository and install its dependencies:
 

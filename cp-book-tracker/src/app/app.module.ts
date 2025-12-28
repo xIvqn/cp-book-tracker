@@ -10,14 +10,19 @@ import { SectionComponent } from './components/section/section.component';
 import { ProblemSetComponent } from './components/problem-set/problem-set.component';
 import { VcontestModalComponent } from './components/vcontest-modal/vcontest-modal.component';
 
-@NgModule({ declarations: [
+@NgModule({
+    declarations: [],
+    bootstrap: [AppComponent],
+    imports: [
+        BrowserModule,
+        FormsModule,
         AppComponent,
-        ProblemComponent,
         ChapterComponent,
+        ProblemComponent,
         SectionComponent,
         ProblemSetComponent,
         VcontestModalComponent
     ],
-    bootstrap: [AppComponent], imports: [BrowserModule,
-        FormsModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
+    providers: [provideHttpClient(withInterceptorsFromDi())]
+})
 export class AppModule { }
