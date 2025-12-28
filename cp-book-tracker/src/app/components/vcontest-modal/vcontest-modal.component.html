@@ -1,41 +1,64 @@
-
-<div class="modal fade" id="exampleModal" tabindex="-1" aria- 
-  labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabindex="-1" aria- labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Virtual contest</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" 
-            aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <div class="my-2">
-          As for now, vistual contests can only be created with a random set of problems from the current book edition.
-          <br><br>
-          Duration can be specified in minutes (m), hours (h) or days (d). For example: 30m, 1h or 2d.
+          By creating a virtual contest, you can measure your performance under contest settings alone or against other
+          users.
         </div>
         <form class="row g-3 mt-2" #vcontestForm="ngForm" (ngSubmit)="onSubmit(vcontestForm)">
           <div class="col-md-4">
             <label for="start_time" class="form-label">Start time</label>
-            <input type="date" class="form-control mb-2" aria-label="Start date" aria-describedby="start_time" name="start_date" ngModel> 
-            <input type="time" class="form-control" aria-label="Start time" aria-describedby="start_time" name="start_time" ngModel> 
+            <input type="date" class="form-control mb-2" aria-label="Start date" aria-describedby="start_time"
+              name="start_date" ngModel>
+            <input type="time" class="form-control" aria-label="Start time" aria-describedby="start_time"
+              name="start_time" ngModel>
           </div>
           <div class="col-md-4">
-            <input class="form-check-input me-1" type="radio" name="end_type" id="radio-end_time" value="end_time" ngModel>
+            <input class="form-check-input me-1" type="radio" name="end_type" id="radio-end_time" value="end_time"
+              ngModel>
             <label for="radio-end_time" class="form-label">End time</label>
-            <input type="date" class="form-control mb-2" aria-label="End date" aria-describedby="end_time" name="end_date" ngModel> 
-            <input type="time" class="form-control" aria-label="End time" aria-describedby="end_time" name="end_time" ngModel>
+            <input type="date" class="form-control mb-2" aria-label="End date" aria-describedby="end_time"
+              name="end_date" ngModel>
+            <input type="time" class="form-control" aria-label="End time" aria-describedby="end_time" name="end_time"
+              ngModel>
           </div>
           <div class="col-md-4">
-            <input class="form-check-input me-1" type="radio" name="end_type" id="radio-duration" value="duration" ngModel>
+            <input class="form-check-input me-1" type="radio" name="end_type" id="radio-duration" value="duration"
+              ngModel>
             <label for="radio-duration" class="form-label">Duration</label>
-            <input type="text" class="form-control" aria-label="Duration" aria-describedby="duration" name="duration" ngModel>
+            <input type="text" class="form-control" aria-label="Duration" aria-describedby="duration" name="duration"
+              ngModel>
+          </div>
+          <div class="col-12 mt-0">
+            <small class="form-text text-muted">Duration can be specified in minutes (m), hours (h) or days (d). For
+              example: 30m, 1h or 2d.</small>
+          </div>
+          <div class="col-12">
+            <label for="problems" class="form-label">Problems (comma-separated)</label>
+            <input type="text" class="form-control" id="problems" placeholder="Problem Number"
+              (keyup)="onProblemInput($event)">
+            <small class="form-text text-muted">Leaving the problems list empty will create a contest with a random set
+              of problems from the current book edition.</small>
+            <div *ngIf="problemList.length > 0" class="mt-3">
+              <span class="badge text-bg-warning m-1" *ngFor="let problem of problemList">
+                <span class="my-auto">
+                  {{ problem }}
+                </span>
+                <button type="button" class="btn-close" aria-label="Close" (click)="removeProblem(problem)"></button>
+              </span>
+            </div>
           </div>
           <div class="col-12">
             <label for="participants" class="form-label">Participants (comma-separated)</label>
-            <input type="text" class="form-control" id="participants" placeholder="Username" (keyup)="onUserInput($event)">
-            <div class="mt-3 gap-2">
-              <span class="badge text-bg-info me-1" *ngFor="let user of userList">
+            <input type="text" class="form-control" id="participants" placeholder="Username"
+              (keyup)="onUserInput($event)">
+            <div *ngIf="userList.length > 0" class="mt-3">
+              <span class="badge text-bg-info m-1" *ngFor="let user of userList">
                 <span class="my-auto">
                   {{ user }}
                 </span>
@@ -43,8 +66,7 @@
               </span>
             </div>
           </div>
-          <button type="submit" class="btn btn-success" data-bs-dismiss="modal" 
-          aria-label="Create">
+          <button type="submit" class="btn btn-success" data-bs-dismiss="modal" aria-label="Create">
             Create
           </button>
         </form>
@@ -65,6 +87,17 @@
       The user could not be found. Please try again.
     </div>
   </div>
+  <div id="incorrectProblemToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <span class="badge text-bg-danger me-2"><i class="bi bi-exclamation-lg"></i></span>
+      <strong class="me-auto">Incorrect problem number</strong>
+      <small>now</small>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      The problem could not be found. Please try again.
+    </div>
+  </div>
   <div id="repeatedUserToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
     <div class="toast-header">
       <span class="badge text-bg-danger me-2"><i class="bi bi-exclamation-lg"></i></span>
@@ -74,6 +107,17 @@
     </div>
     <div class="toast-body">
       This user is already a participant in the contest. Please add a different user.
+    </div>
+  </div>
+  <div id="repeatedProblemToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <span class="badge text-bg-danger me-2"><i class="bi bi-exclamation-lg"></i></span>
+      <strong class="me-auto">Problem is in the contest</strong>
+      <small>now</small>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      This problem is already in the contest. Please add a different problem.
     </div>
   </div>
   <div id="minUserToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
@@ -95,7 +139,8 @@
       <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
     </div>
     <div class="toast-body">
-      Check the start and end times of the contest. <br>The end time must be later than the start time, and both must be in the future. <br>Also one of end time or duration must be selected, and duration must end with "m", "h" or "d".
+      Check the start and end times of the contest. <br>The end time must be later than the start time, and both must be
+      in the future. <br>Also one of end time or duration must be selected, and duration must end with "m", "h" or "d".
     </div>
   </div>
   <div id="userAddedToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
@@ -107,6 +152,17 @@
     </div>
     <div class="toast-body">
       User {{ userList.at(userList.length-1) }} has been added to the list of participants.
+    </div>
+  </div>
+  <div id="problemAddedToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <span class="badge text-bg-info me-2"><i class="bi bi-check-lg"></i></span>
+      <strong class="me-auto">New problem</strong>
+      <small>now</small>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      Problem {{ problemList.at(problemList.length-1) }} has been added to the contest.
     </div>
   </div>
   <div id="vcontestCreatedToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
@@ -121,7 +177,8 @@
       <div *ngIf="vcontest !== undefined">
         It will start at {{ timestampToDate(vcontest!.start_sbt) }} and end at {{ timestampToDate(vcontest!.end_sbt) }}.
         <br><br>
-        Accessible at: <a href="https://uhunt.onlinejudge.org/vcontest/{{ vcontest!.id }}" target="_blank" rel="noopener">https://uhunt.onlinejudge.org/vcontest/{{ vcontest!.id }}</a>.
+        Accessible at: <a href="https://uhunt.onlinejudge.org/vcontest/{{ vcontest!.id }}" target="_blank"
+          rel="noopener">https://uhunt.onlinejudge.org/vcontest/{{ vcontest!.id }}</a>.
       </div>
     </div>
   </div>

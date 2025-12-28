@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FormsModule, NgForm } from '@angular/forms';
 import { Vcontest } from 'src/app/models/vcontest.model';
 import { BookService } from 'src/app/services/book.service';
 import { UserService } from 'src/app/services/user.service';
@@ -7,12 +8,16 @@ import { VcontestService } from 'src/app/services/vcontest.service';
 
 @Component({
   selector: 'app-vcontest-modal',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './vcontest-modal.component.html'
 })
 export class VcontestModalComponent {
 
   public userList: string[] = [];
   private ids: string[] = [];
+  public problemList: string[] = [];
+  public problemNums: number[] = [];
   public vcontest: Vcontest | undefined;
   @ViewChild('vcontestForm') vcontestForm!: NgForm;
 
@@ -41,7 +46,7 @@ export class VcontestModalComponent {
     // Check if the last character is a comma
     if (inputValue.endsWith(',')) {
       // Extract the users between commas
-      const users = inputValue.slice(0, inputValue.length-1).split(',');
+      const users = inputValue.slice(0, inputValue.length - 1).split(',');
 
       users.forEach((user) => {
         const trimmedUser = user.trim();
@@ -49,7 +54,7 @@ export class VcontestModalComponent {
         if (trimmedUser.length < 1) {
           return;
         }
-        
+
         // Get the user id and add it to the list if it is valid
         this.userService.getId(trimmedUser).subscribe((id) => {
           if (id == 0) {
@@ -70,10 +75,62 @@ export class VcontestModalComponent {
 
   }
 
+  public onProblemInput(event: KeyboardEvent) {
+    const inputValue = (event.target as HTMLInputElement).value;
+
+    if (inputValue.endsWith(',')) {
+      const problemStrs = inputValue.slice(0, inputValue.length - 1).split(',');
+
+      problemStrs.forEach((probStr) => {
+        const trimmed = probStr.trim();
+        if (trimmed.length < 1) return;
+
+        const num = parseInt(trimmed);
+        if (isNaN(num)) {
+          this.toggleToast('incorrectProblemToast', 5);
+          return;
+        }
+
+        if (this.problemNums.includes(num)) {
+          this.toggleToast('repeatedProblemToast', 5);
+          return;
+        }
+
+        const problem = this.findProblemByNum(num);
+
+        if (problem) {
+          this.problemNums.push(num);
+          this.problemList.push(`${problem.num} - ${problem.title}`);
+          this.toggleToast('problemAddedToast', 2);
+        } else {
+          this.toggleToast('incorrectProblemToast', 5);
+        }
+      });
+
+      (event.target as HTMLInputElement).value = '';
+    }
+  }
+
   public removeUser(user: string) {
     const index = this.userList.indexOf(user);
     this.userList.splice(index, 1);
     this.ids.splice(index, 1);
+  }
+
+  public removeProblem(problem: string) {
+    const index = this.problemList.indexOf(problem);
+    if (index > -1) {
+      this.problemList.splice(index, 1);
+      this.problemNums.splice(index, 1);
+    }
+  }
+
+  private findProblemByNum(num: number) {
+    if (!this.bookService.problems) return undefined;
+    for (const problem of this.bookService.problems.values()) {
+      if (problem.num === num) return problem;
+    }
+    return undefined;
   }
 
   private selectProblemNums(): number[] {
@@ -84,7 +141,7 @@ export class VcontestModalComponent {
       let section = chapter.sections[Math.floor(Math.random() * chapter.sections.length)];
       let problemSet = section.problemSets[Math.floor(Math.random() * section.problemSets.length)];
       let problem = problemSet.problems[Math.floor(Math.random() * problemSet.problems.length)];
-      
+
       problems.push(problem["num"]);
     }
 
@@ -96,7 +153,7 @@ export class VcontestModalComponent {
       this.toggleToast('minUserToast', 5);
       return;
     }
-    
+
     if (vcontestForm.value.start_time.length === 0 || (vcontestForm.value.end_time.length === 0 && vcontestForm.value.duration.length === 0)) {
       this.toggleToast('invalidTimesToast', 5);
       return;
@@ -116,14 +173,19 @@ export class VcontestModalComponent {
       this.toggleToast('invalidTimesToast', 5);
       return;
     }
-    
+
 
     if (start_time >= end_time || start_time < currentDate) {
       this.toggleToast('invalidTimesToast', 5);
       return;
     }
 
-    let problems = this.selectProblemNums();
+    let problems: number[];
+    if (this.problemNums.length > 0) {
+      problems = this.problemNums;
+    } else {
+      problems = this.selectProblemNums();
+    }
 
     const vcontest: Vcontest = {
       id: undefined,
@@ -135,7 +197,7 @@ export class VcontestModalComponent {
 
     this.vcontestService.createVcontest(vcontest).subscribe((vcontest) => {
       this.vcontest = vcontest;
-    
+
       this.toggleToast('vcontestCreatedToast', 10);
     });
   }
@@ -149,7 +211,7 @@ export class VcontestModalComponent {
       case "h": units *= 60 * 60; break;
       case "d": units *= 60 * 60 * 24; break;
       default: return endDate;
-    }    
+    }
 
     endDate.setTime(startTime.getTime() + parseInt(duration) * units);
 
