@@ -13,6 +13,7 @@ import { Problem } from './models/problem.model';
 import { BookService } from './services/book.service';
 import { UserService } from './services/user.service';
 import { ChapterComponent } from './components/chapter/chapter.component';
+import { VcontestModalComponent } from './components/vcontest-modal/vcontest-modal.component';
 
 
 const userRefreshInterval = 30000;
@@ -20,7 +21,7 @@ const userRefreshInterval = 30000;
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule, ChapterComponent],
+  imports: [CommonModule, FormsModule, ChapterComponent, VcontestModalComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })

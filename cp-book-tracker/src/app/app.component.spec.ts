@@ -7,6 +7,7 @@ import { of } from 'rxjs';
 import { AppComponent } from './app.component';
 import { BookService } from './services/book.service';
 import { UserService } from './services/user.service';
+import { VcontestService } from './services/vcontest.service';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -14,16 +15,19 @@ describe('AppComponent', () => {
   let httpMock: HttpTestingController;
   let bookServiceSpy: jasmine.SpyObj<BookService>;
   let userServiceSpy: jasmine.SpyObj<UserService>;
+  let vcontestServiceSpy: jasmine.SpyObj<VcontestService>;
 
   beforeEach(async () => {
     const bSpy = jasmine.createSpyObj('BookService', ['getBook']);
     const uSpy = jasmine.createSpyObj('UserService', ['getSolved']);
+    const vSpy = jasmine.createSpyObj('VcontestService', ['createVcontest']);
 
     await TestBed.configureTestingModule({
       imports: [AppComponent, FormsModule],
       providers: [
         { provide: BookService, useValue: bSpy },
         { provide: UserService, useValue: uSpy },
+        { provide: VcontestService, useValue: vSpy },
         provideHttpClient(),
         provideHttpClientTesting()
       ],
